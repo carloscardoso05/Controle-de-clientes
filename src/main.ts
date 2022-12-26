@@ -6,6 +6,12 @@ import { getFirestore } from "firebase/firestore";
 import router from "./router";
 import { createPinia } from "pinia";
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon} from "@fortawesome/vue-fontawesome"
+import icons from './fontAwesome';
+
+library.add({...icons})
+
 const firebaseConfig = {
   apiKey: "AIzaSyBo3lRn6iMYsVk4r-VY6f0XLMLIeojOmGA",
   authDomain: "meu-projeto-c9001.firebaseapp.com",
@@ -21,4 +27,4 @@ export const db = getFirestore(app);
 
 const pinia = createPinia();
 
-createApp(App).use(router).use(pinia).mount("#app");
+createApp(App).component('Icon', FontAwesomeIcon).use(router).use(pinia).mount("#app");

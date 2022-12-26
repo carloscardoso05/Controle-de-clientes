@@ -18,13 +18,13 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
-            path: '/', component: () => import('../views/Home.vue'),
+            path: '/', component: () => import('../views/HomePage.vue'),
             meta: {
                 requiresAuth: true
             }
         },
-        { path: '/login', component: () => import('../views/Login.vue') },
-        { path: '/register', component: () => import('../views/Register.vue') }
+        { path: '/login', component: () => import('../views/LoginPage.vue') },
+        { path: '/register', component: () => import('../views/RegisterPage.vue') }
     ]
 });
 

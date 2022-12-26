@@ -42,13 +42,7 @@ function handleSignOut() {
 }
 
 onMounted(() => {
-  onAuthStateChanged(auth.value, (user) => {
-    if (user) {
-      isLoggedIn.value = true;
-    } else {
-      isLoggedIn.value = false;
-    }
-  });
+  onAuthStateChanged(auth.value, (user) => user ? isLoggedIn.value = true : isLoggedIn.value = false);
 });
 </script>
 
