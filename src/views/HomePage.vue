@@ -6,7 +6,7 @@
   </button>
 </div>
 
-<!-- <TopDebts/> -->
+<AllDebts/>
 
 </template>
 
@@ -16,7 +16,7 @@ import getUserData from "@/getUserData"
 import { useDespesasStore } from "../store/index";
 import IUser from "@/interfaces/IUser";
 
-import TopDebts from "@/components/TopDebts.vue";
+import AllDebts from "@/components/AllDebts.vue";
 
 const costumerName = ref("")
 

@@ -1,4 +1,6 @@
+import ICostumer from "./ICostumer";
+
 export default interface IUser {
-    userName: string;
-    costumers: object;
-  }
+  userName: string;
+  costumers: ICostumer;
+}
