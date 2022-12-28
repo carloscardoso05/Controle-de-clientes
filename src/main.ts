@@ -27,4 +27,4 @@ export const db = getFirestore(app);
 
 const pinia = createPinia();
 
-createApp(App).component('Icon', FontAwesomeIcon).use(router).use(pinia).mount("#app");
+createApp(App).component('font-awesome-icon', FontAwesomeIcon).use(router).use(pinia).mount("#app");

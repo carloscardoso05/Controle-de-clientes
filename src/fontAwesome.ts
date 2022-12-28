@@ -1,7 +1,9 @@
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
+import { faMagnifyingGlass, faCirclePlus, faPlus } from "@fortawesome/free-solid-svg-icons"
 
 const icons = {
-    faMagnifyingGlass
+    faMagnifyingGlass,
+    faCirclePlus,
+    faPlus
 }
 
 export default icons
