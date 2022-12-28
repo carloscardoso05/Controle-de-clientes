@@ -7,10 +7,12 @@ export const useDespesasStore = defineStore("DespesasStore", () => {
   const userId = computed(() => getAuth().currentUser?.uid as string)
   const userData = ref({} as IUser)
   const costumersData = computed(() => userData.value["costumers"])
+  const costumersNames = ref([''])
 
   return {
     userId,
     userData,
-    costumersData
+    costumersData,
+    costumersNames
   };
 });
