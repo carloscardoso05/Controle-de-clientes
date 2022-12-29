@@ -10,7 +10,7 @@
 <script lang="ts" setup>
 import { onMounted, computed, ref, watch } from "vue";
 import getUserData from "@/getUserData"
-import { useDespesasStore } from "../store/index";
+import { useAppStore } from "../store/index";
 import IUser from "@/interfaces/IUser";
 import ICostumer from "@/interfaces/ICostumer";
 
@@ -19,7 +19,7 @@ import ToolBar from "@/components/ToolBar.vue";
 
 const searchName = ref("")
 
-const store = useDespesasStore()
+const store = useAppStore()
 const userId = computed(() => store.userId)
 const costumersData = computed(() => store.costumersData as ICostumer)
 

@@ -3,15 +3,15 @@
         :key="costumer">
         <h2 class="text-2xl font-medium text-left ml-4">{{ costumer }}</h2>
         <div class="text-left ml-8 border-l-2 pl-1 border-gray-400" v-for="debt in getCostumerData(costumer)"
-            :key="debt.timestamp">
+            :key="debt.dateTime">
             <p>{{ capitalize(debt.description) }}: {{ formatMoney(debt.price) }}</p>
-            <p>{{ debt.timestamp }}</p>
+            <p>{{ debt.dateTime }}</p>
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { useDespesasStore } from "@/store/index"
+import { useAppStore } from "@/store/index"
 import { computed, ref, watch, defineProps } from "vue"
 import ICostumer from "@/interfaces/ICostumer";
 import IDebt from "@/interfaces/IDebt";
@@ -23,7 +23,7 @@ const props = defineProps({
     }
 })
 
-const store = useDespesasStore()
+const store = useAppStore()
 const costumersData = computed(() => store.costumersData as ICostumer)
 const costumersNames = ref()
 const getSearchName = computed(() => props.searchName)
