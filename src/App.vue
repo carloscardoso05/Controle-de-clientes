@@ -2,11 +2,9 @@
   <nav class="flex justify-between w-11/12 mx-auto mt-4">
     <span class="space-x-2">
       <router-link class="rounded-lg px-3 py-2 text-slate-700 font-bold hover:bg-blue-100 hover:text-slate-900"
-        to="/">Home</router-link>
-      <router-link class="rounded-lg px-3 py-2 text-slate-700 font-bold hover:bg-blue-100 hover:text-slate-900"
-        to="/login">Login</router-link>
-      <router-link class="rounded-lg px-3 py-2 text-slate-700 font-bold hover:bg-blue-100 hover:text-slate-900"
-        to="/register">Registrar</router-link>
+        v-for="link in routerLinks" :key="link.path" :to="link.path">
+        {{ link.label }}
+      </router-link>
     </span>
 
     <button
@@ -29,6 +27,25 @@
 import { ref, onMounted } from "vue";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import router from "./router";
+
+const routerLinks = [
+  {
+    path: '/',
+    label: 'Início'
+  },
+  {
+    path: '/costumers',
+    label: 'Clientes'
+  },
+  {
+    path: '/login',
+    label: 'Login'
+  },
+  {
+    path: '/register',
+    label: 'Registrar'
+  },
+]
 
 const auth = ref(getAuth());
 const isLoggedIn = ref(false);
@@ -61,5 +78,9 @@ onMounted(() => {
   text-align: center;
 }
 </style>
+
+
+
+
 
 <style src="./assets/tailwind.css"/>

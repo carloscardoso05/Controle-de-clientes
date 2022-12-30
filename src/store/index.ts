@@ -7,12 +7,12 @@ export const useAppStore = defineStore("AppStore", () => {
   const userId = computed(() => getAuth().currentUser?.uid as string)
   const userData = ref({} as IUser)
   const costumersData = computed(() => userData.value["costumers"])
-  const costumersNames = ref([''])
+  const allCostumersNames = ref([''])
 
   return {
     userId,
     userData,
     costumersData,
-    costumersNames
+    allCostumersNames
   };
 });

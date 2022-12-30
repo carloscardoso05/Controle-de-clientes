@@ -21,7 +21,7 @@
 			</fieldset>
 
 			<fieldset>
-				<input v-model="date" type="date" placeholder="Data">
+				<input v-model="dateForm" type="date" placeholder="Data">
 			</fieldset>
 
 			<div class="space-x-20">
@@ -35,38 +35,44 @@
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
-import addDebt from "@/addDebt"
 import { useAppStore } from "@/store/index"
-import IDebt from '@/interfaces/IDebt';
-import getUserData from "@/getUserData"
 import IUser from '@/interfaces/IUser';
+import IDebt from '@/interfaces/IDebt';
+import addDebt from "@/addDebt"
+import getUserData from "@/getUserData"
 
 const store = useAppStore()
 const userId = computed(() => store.userId)
-
-const costumers = ref(['Carlos', 'Júlia', 'Vitor', 'Viviane'])
+const costumers = computed(() => store.allCostumersNames)
 
 //Formulário
-const date = ref()
-const costumerForm = ref()
-const descriptionForm = ref()
-const priceForm = ref()
+const dateForm = ref('')
+const year = computed(() => Number(dateForm.value.substring(0, 4)));
+const month = computed(() => Number(dateForm.value.substring(5, 7)));
+const day = computed(() => Number(dateForm.value.substring(8, 10)));
+const dateTime = computed(() => new Date(year.value, month.value-1, day.value))
 
+const costumerForm = ref('')
+const descriptionForm = ref('')
+const priceForm = ref(NaN)
 
 const newDebt = computed((): IDebt => {
 	return {
 		description: descriptionForm.value,
 		price: priceForm.value,
-		dateTime: date.value,
-		id: Date.now().toString()
+		dateTime: dateTime.value,
+		id: dateTime.value.getTime()
 	}
 })
 
 function add(costumer: string, data: IDebt): void {
-	addDebt(userId.value, costumer, data)
-	getUserData(userId.value).then((data) => {
-    store.userData = data as IUser
-  })
+	if(costumer !='' && dateForm.value.length == 10 && data.description != '' && data.price > 0){
+		addDebt(userId.value, costumer, data)
+	
+		getUserData(userId.value).then((data) => { 	// Carrega os dados novamente
+			store.userData = data as IUser
+		})
+	}
 }
 </script>
 
