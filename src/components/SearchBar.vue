@@ -10,12 +10,18 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, defineEmits, watch } from "vue"
+import { ref, watch, defineProps } from "vue"
 
 const searchName = ref("")
-const emit = defineEmits(['eventSearchName'])
+
+const props = defineProps({
+    store: {
+        type: Object,
+        required: true
+    }
+})
 
 watch([searchName], () => {
- emit('eventSearchName', searchName.value)
+    (props.store.searchName as any) = searchName.value
 })
 </script>

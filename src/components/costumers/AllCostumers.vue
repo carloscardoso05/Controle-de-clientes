@@ -5,26 +5,20 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch, onMounted, defineProps } from 'vue';
-import { useAppStore } from '@/store';
+import { computed, ref, watch, onMounted } from 'vue';
+import { useAppStore, useCostumersStore } from '@/store';
 import IUser from '@/interfaces/IUser';
 import ICostumer from '@/interfaces/ICostumer';
 import CostumerData from '@/components/costumers/CostumerData.vue';
-import getUserData from "@/getUserData"
+import getUserData from "@/util/getUserData"
 
-const store = useAppStore()
-const userId = computed(() => store.userId)
-const allCostumersNames = computed(() => store.allCostumersNames as ICostumer["name"][])
-const costumersData = computed(() => store.costumersData as IUser["costumers"])
+const appStore = useAppStore()
+const costumersStore = useCostumersStore()
+const searchName = computed(() => costumersStore.searchName)
+const userId = computed(() => appStore.userId)
+const allCostumersNames = computed(() => appStore.allCostumersNames as ICostumer["name"][])
+const costumersData = computed(() => appStore.costumersData as IUser["costumers"])
 const filterCostumersNames = ref([] as ICostumer["name"][])
-const getSearchName = computed(() => props.searchName)
-
-const props = defineProps({
-    searchName: {
-        type: String,
-        default: ''
-    }
-})
 
 function filterName(searchName: string, nameRef: string) {
     return searchName.length > 0 ? nameRef.toLowerCase().includes(searchName.toLowerCase()) : nameRef
@@ -32,14 +26,14 @@ function filterName(searchName: string, nameRef: string) {
 
 onMounted(() => {
     getUserData(userId.value).then((data) => {
-        store.userData = data as IUser
+        appStore.userData = data as IUser
     })
 })
 
-watch([costumersData], () => store.allCostumersNames = Object.keys(costumersData.value))
+watch([costumersData], () => appStore.allCostumersNames = Object.keys(costumersData.value))
 
-watch([costumersData, getSearchName], () => {
-    filterCostumersNames.value = allCostumersNames.value.filter(costumerName => filterName(getSearchName.value, costumerName))
+watch([costumersData, searchName], () => {
+    filterCostumersNames.value = allCostumersNames.value.filter(costumerName => filterName(searchName.value, costumerName))
     filterCostumersNames.value.sort()
 })
 </script>

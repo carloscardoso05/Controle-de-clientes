@@ -16,3 +16,19 @@ export const useAppStore = defineStore("AppStore", () => {
     allCostumersNames
   };
 });
+
+export const useHomeStore = defineStore("HomeStore", () => {
+  const searchName = ref('')
+
+  return {
+    searchName,
+  };
+});
+
+export const useCostumersStore = defineStore("CostumersStore", () => {
+  const searchName = ref('')
+
+  return {
+    searchName,
+  };
+});

@@ -1,6 +1,6 @@
 import { doc, updateDoc } from "firebase/firestore";
-import ICostumer from "./interfaces/ICostumer";
-import { db } from "./main";
+import ICostumer from "../interfaces/ICostumer";
+import { db } from "../main";
 
 
 export default async function add(userId: string, updateData: ICostumer) {

@@ -1,5 +1,7 @@
 <template>
-	<dialog id="modal" class="border-2 border-red-500 rounded absolute top-1/4">
+	<AddDebtButton />
+
+	<dialog id="addDebtModal" class="border-2 border-red-500 rounded absolute top-1/4">
 		<form method="dialog" class="space-y-4">
 			<fieldset>
 				<label>Nome do cliente:
@@ -25,9 +27,9 @@
 			</fieldset>
 
 			<div class="space-x-20">
-				<button class="border-2 border-red-500 px-2 rounded-lg" value="cancel">Cancel</button>
+				<button class="border-2 border-red-500 px-2 rounded-lg" value="cancel">Cancelar</button>
 				<button class="border-2 border-blue-500 px-2 rounded-lg" id="confirmBtn" value="default"
-					@click="add(costumerForm, newDebt)">Confirm</button>
+					@click="add(costumerForm, newDebt)">Adicionar</button>
 			</div>
 		</form>
 	</dialog>
@@ -38,8 +40,9 @@ import { ref, computed } from 'vue';
 import { useAppStore } from "@/store/index"
 import IUser from '@/interfaces/IUser';
 import IDebt from '@/interfaces/IDebt';
-import addDebt from "@/addDebt"
-import getUserData from "@/getUserData"
+import addDebt from "@/util/addDebt"
+import getUserData from "@/util/getUserData"
+import AddDebtButton from "./AddDebtButton.vue";
 
 const store = useAppStore()
 const userId = computed(() => store.userId)
@@ -50,7 +53,7 @@ const dateForm = ref('')
 const year = computed(() => Number(dateForm.value.substring(0, 4)));
 const month = computed(() => Number(dateForm.value.substring(5, 7)));
 const day = computed(() => Number(dateForm.value.substring(8, 10)));
-const dateTime = computed(() => new Date(year.value, month.value-1, day.value))
+const dateTime = computed(() => new Date(year.value, month.value - 1, day.value))
 
 const costumerForm = ref('')
 const descriptionForm = ref('')
@@ -66,11 +69,11 @@ const newDebt = computed((): IDebt => {
 })
 
 function add(costumer: string, data: IDebt): void {
-	if(costumer !='' && dateForm.value.length == 10 && data.description != '' && data.price > 0){
-		addDebt(userId.value, costumer, data)
-	
-		getUserData(userId.value).then((data) => { 	// Carrega os dados novamente
-			store.userData = data as IUser
+	if (costumer != '' && dateForm.value.length == 10 && data.description != '' && data.price > 0) {
+		addDebt(userId.value, costumer, data).then(() => {
+			getUserData(userId.value).then((data) => { 	// Carrega os dados novamente
+				store.userData = data as IUser
+			})
 		})
 	}
 }
