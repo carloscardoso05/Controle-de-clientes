@@ -18,7 +18,7 @@
     <br>
     <button
       class="bg-transparent rounded px-3 py-2 w-3/5 max-w-xs border-2 border-emerald-500 bg-emerald-200 bg-opacity-75 font-medium"
-      @click="logInWithGoogle">Entrar com Google</button>
+      @click.prevent="logInWithGoogle">Entrar com Google</button>
   </form>
 </template>
 
