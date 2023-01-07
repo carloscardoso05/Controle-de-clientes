@@ -1,5 +1,8 @@
+import IUser from "@/interfaces/IUser";
 import { db } from "@/main";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { useAppStore } from "@/store";
+const appStore = useAppStore()
 
 export default async function getUserData(userId: string) {
     const docRef = doc(db, "users", userId);
@@ -9,7 +12,11 @@ export default async function getUserData(userId: string) {
       console.log("Document data:", docSnap.data());
       return docSnap.data()
     } else {
-      // doc.data() will be undefined in this case
+      const userName = appStore.userName
+      await setDoc(doc(db, "users", userId), {
+        costumers: {} as IUser["costumers"],
+        userName: userName
+      } as IUser);
       console.log("No such document!");
       return
     }

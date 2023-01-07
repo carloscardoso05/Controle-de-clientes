@@ -4,6 +4,12 @@
     <fieldset class="">
       <input
         class="outline-none border-2 border-purple-300 focus:border-purple-600 bg-gray-100 rounded px-2 py-2 w-3/5 max-w-xs min-w-max"
+        type="text" placeholder="Seu nome" v-model="appStore.userName" />
+    </fieldset>
+
+    <fieldset class="">
+      <input
+        class="outline-none border-2 border-purple-300 focus:border-purple-600 bg-gray-100 rounded px-2 py-2 w-3/5 max-w-xs min-w-max"
         type="text" placeholder="Email" v-model="email" />
     </fieldset>
 
@@ -31,7 +37,9 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { useRouter } from "vue-router";
+import { useAppStore } from "@/store";
 
+const appStore = useAppStore()
 const email = ref("");
 const password = ref();
 const router = ref(useRouter());

@@ -9,12 +9,14 @@ export const useAppStore = defineStore("AppStore", () => {
   const costumersData = computed(() => userData.value["costumers"] as IUser["costumers"])
   // const allCostumersNames = ref([''])
   const allCostumersNames = computed(() => Object.keys(costumersData.value))
+  const userName = ref('')
 
   return {
     userId,
     userData,
     costumersData,
-    allCostumersNames
+    allCostumersNames,
+    userName
   };
 });
 
