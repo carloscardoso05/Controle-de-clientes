@@ -1,5 +1,5 @@
 <template>
-  <h1 class="text-4xl mt-8 mb-4 font-bold">Acesse sua conta</h1>
+  <h1 class="text-4xl my-4 font-bold pageName">Acesse sua conta</h1>
   <form class="space-y-4">
     <p v-if="errMsg"
       class="text-lg font-medium bg-amber-500 bg-opacity-40 border-2 border-amber-500 mx-auto w-3/5 py-1">
@@ -43,7 +43,7 @@ function logIn() {
     .then((result) => {
       console.log("Login realizado com sucesso");
       console.log("Current User:", result.user.uid);
-      router.value.push("/");
+      router.value.push("/debts");
     })
     .catch((error) => {
       console.log(error.code);
@@ -71,7 +71,7 @@ function logInWithGoogle() {
     .then((result) => {
       console.log("Login realizado com sucesso");
       console.log("Current User:", result.user.uid);
-      router.value.push("/");
+      router.value.push("/debts");
     })
     .catch((error) => {
       console.log(error.message);
@@ -87,9 +87,3 @@ function logInWithGoogle() {
 // };
 
 </script>
-
-<style scoped>
-* {
-  font-family: var(--nunito);
-}
-</style>

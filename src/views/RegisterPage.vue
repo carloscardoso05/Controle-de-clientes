@@ -1,5 +1,5 @@
 <template>
-  <h1 class="text-4xl mt-8 mb-4 font-bold">Registre sua conta</h1>
+  <h1 class="text-4xl my-4 font-bold pageName">Registre sua conta</h1>
   <form class="space-y-4">
     <fieldset class="">
       <input
@@ -41,7 +41,7 @@ function register() {
   createUserWithEmailAndPassword(auth, email.value, password.value)
     .then((data) => {
       console.log("Registro realizado com sucesso");
-      router.value.push("/");
+      router.value.push("/debts");
     })
     .catch((error) => {
       console.log(error.code);
@@ -55,7 +55,7 @@ function logInWithGoogle() {
     .then((result) => {
       console.log("Registro realizado com sucesso");
       console.log(result.user);
-      router.value.push("/");
+      router.value.push("/debts");
     })
     .catch((error) => {
       console.log(error.message);
@@ -69,9 +69,3 @@ function logInWithGoogle() {
 //   password,
 // };
 </script>
-
-<style scoped>
-* {
-  font-family: var(--nunito);
-}
-</style>

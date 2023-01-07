@@ -24,28 +24,40 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import router from "./router";
 
-const routerLinks = [
+const links = ref([
   {
-    path: '/',
-    label: 'Início'
+    path: '/debts',
+    label: 'Débitos',
+    showIfLogged: true
   },
   {
     path: '/costumers',
-    label: 'Clientes'
+    label: 'Clientes',
+    showIfLogged: true
   },
   {
     path: '/login',
-    label: 'Login'
+    label: 'Login',
+    showIfLogged: false
   },
   {
     path: '/register',
-    label: 'Registrar'
+    label: 'Registrar',
+    showIfLogged: false
   },
-]
+])
+
+const routerLinks = computed(() => {
+  if(isLoggedIn.value){
+    return links.value.filter((link) => link.showIfLogged)
+  } else {
+    return links.value
+  }
+})
 
 const auth = ref(getAuth());
 const isLoggedIn = ref(false);
@@ -54,7 +66,7 @@ function handleSignOut() {
   console.log("Usuário deslogado");
 
   signOut(auth.value).then(() => {
-    router.push("/");
+    router.push("/debts");
   });
 }
 
@@ -69,6 +81,10 @@ onMounted(() => {
 :root {
   --rubik: 'Rubik', sans-serif;
   --nunito: 'Nunito', sans-serif;
+}
+
+.pageName {
+  font-family: var(--nunito);
 }
 
 #app {

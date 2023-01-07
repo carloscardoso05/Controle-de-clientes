@@ -17,7 +17,7 @@ export const useAppStore = defineStore("AppStore", () => {
   };
 });
 
-export const useHomeStore = defineStore("HomeStore", () => {
+export const useDebtsStore = defineStore("DebtsStore", () => {
   const searchName = ref('')
 
   return {

@@ -18,7 +18,7 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
-            path: '/', component: () => import('../views/HomePage.vue'),
+            path: '/debts', component: () => import('../views/DebtsPage.vue'),
             meta: {
                 requiresAuth: true
             }

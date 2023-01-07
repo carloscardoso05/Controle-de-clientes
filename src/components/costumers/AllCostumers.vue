@@ -5,17 +5,15 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch, onMounted } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useAppStore, useCostumersStore } from '@/store';
 import IUser from '@/interfaces/IUser';
 import ICostumer from '@/interfaces/ICostumer';
 import CostumerData from '@/components/costumers/CostumerData.vue';
-import getUserData from "@/util/getUserData"
 
 const appStore = useAppStore()
 const costumersStore = useCostumersStore()
 const searchName = computed(() => costumersStore.searchName)
-const userId = computed(() => appStore.userId)
 const allCostumersNames = computed(() => appStore.allCostumersNames as ICostumer["name"][])
 const costumersData = computed(() => appStore.costumersData as IUser["costumers"])
 const filterCostumersNames = ref([] as ICostumer["name"][])
@@ -23,14 +21,6 @@ const filterCostumersNames = ref([] as ICostumer["name"][])
 function filterName(searchName: string, nameRef: string) {
     return searchName.length > 0 ? nameRef.toLowerCase().includes(searchName.toLowerCase()) : nameRef
 }
-
-onMounted(() => {
-    getUserData(userId.value).then((data) => {
-        appStore.userData = data as IUser
-    })
-})
-
-watch([costumersData], () => appStore.allCostumersNames = Object.keys(costumersData.value))
 
 watch([costumersData, searchName], () => {
     filterCostumersNames.value = allCostumersNames.value.filter(costumerName => filterName(searchName.value, costumerName))

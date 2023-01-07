@@ -6,15 +6,15 @@
 </template>
 
 <script lang="ts" setup>
-import { useAppStore, useHomeStore } from "@/store/index"
+import { useAppStore, useDebtsStore } from "@/store/index"
 import { computed, ref, watch } from "vue"
 import ICostumer from "@/interfaces/ICostumer";
 import IUser from "@/interfaces/IUser";
 import CostumersDebts from "./CostumersDebts.vue"
 
 const appStore = useAppStore()
-const homeStore = useHomeStore()
-const searchName = computed(() => homeStore.searchName)
+const debtsStore = useDebtsStore()
+const searchName = computed(() => debtsStore.searchName)
 const costumersData = computed(() => appStore.costumersData as IUser["costumers"])
 const allCostumersNames = computed(() => appStore.allCostumersNames as ICostumer["name"][])
 const filterCostumersNames = ref([] as ICostumer["name"][])
