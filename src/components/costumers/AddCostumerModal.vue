@@ -17,11 +17,14 @@
 			</fieldset>
 
 			<fieldset>
-				<input type="text" placeholder="Endereço" v-model="adress" >
+				<input type="text" placeholder="Endereço" v-model="address" >
 			</fieldset>
 
 			<fieldset>
-				<input type="text" placeholder="Último pagamento" v-model="lastPayment" >
+				<label for="lastPaymentInput">
+					Último pagamento:
+					<input type="date" id="lastPaymentInput" placeholder="Último pagamento" v-model="lastPayment" >
+				</label>
 			</fieldset>
 
 			<fieldset>
@@ -29,7 +32,7 @@
 			</fieldset>
 
 			<div class="space-x-20">
-				<button class="border-2 border-red-500 px-2 rounded-lg" value="cancel">Cancelar</button>
+				<button class="border-2 border-red-500 px-2 rounded-lg" value="cancel" @click="$('#addDebtModal').close()">Cancelar</button>
 				<button class="border-2 border-blue-500 px-2 rounded-lg" id="confirmBtn" value="default"
 					@click="add(newCostumerFields)">Adicionar</button>
 			</div>
@@ -54,7 +57,7 @@ const name = ref('')
 const phoneNumber1 = ref('')
 const phoneNumber2 = ref('')
 const email = ref('')
-const adress = ref('')
+const address = ref('')
 const lastPayment = ref('')
 
 const newCostumerFields = computed((): ICostumer => {
@@ -65,8 +68,8 @@ const newCostumerFields = computed((): ICostumer => {
 		phoneNumber1: phoneNumber1.value,
 		phoneNumber2: phoneNumber2.value,
 		email: email.value,
-		adress: adress.value,
-		lastPayment: lastPayment.value,
+		address: address.value,
+		lastPayment: lastPayment.value.replace('-', '/'),
 	}
 })
 
@@ -79,6 +82,8 @@ function add(data: ICostumer): void {
 		})
 	}
 }
+
+const $ = (e: string): any => document.querySelector(e)
 </script>
 
 <style scoped>

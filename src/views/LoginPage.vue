@@ -43,7 +43,7 @@ function logIn() {
     .then((result) => {
       console.log("Login realizado com sucesso");
       console.log("Current User:", result.user.uid);
-      router.value.push("/debts");
+      router.value.push("/");
     })
     .catch((error) => {
       console.log(error.code);
@@ -71,7 +71,7 @@ function logInWithGoogle() {
     .then((result) => {
       console.log("Login realizado com sucesso");
       console.log("Current User:", result.user.uid);
-      router.value.push("/debts");
+      router.value.push("/");
     })
     .catch((error) => {
       console.log(error.message);

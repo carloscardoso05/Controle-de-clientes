@@ -30,7 +30,7 @@ import router from "./router";
 
 const links = ref([
   {
-    path: '/debts',
+    path: '/',
     label: 'Débitos',
     showIfLogged: true
   },
@@ -66,7 +66,7 @@ function handleSignOut() {
   console.log("Usuário deslogado");
 
   signOut(auth.value).then(() => {
-    router.push("/debts");
+    router.push("/");
   });
 }
 

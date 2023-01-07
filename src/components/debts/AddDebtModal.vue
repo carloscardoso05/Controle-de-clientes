@@ -2,51 +2,54 @@
 	<AddDebtButton />
 
 	<dialog id="addDebtModal" class="shadow-lg rounded w-full max-w-xl">
-		<div v-if="costumers.length == 0" class="space-y-6">
-			<h1 class="text-lg text-center font-medium bg-amber-500 bg-opacity-40 border-2 border-amber-500 mx-auto w-full py-1">
-				<p class="px-1.5">Não há nenhum cliente adicionado ainda. Por favor, adicione um primeiro.</p>
-			</h1>
-			<div class="flex justify-center flex-col space-y-2 xs:flex-row xs:space-x-4 xs:space-y-0">
-				<button id="cancel" class="hidden xs:block border-sky-600 border-2 rounded px-3 py-2 w-full xs:max-w-2xs font-medium" @click="($('#addDebtModal') as any).close()">Cancelar</button>
-				<button id="goToCostumer" class="border-sky-600 border-2 bg-sky-600 rounded px-3 py-2 w-full xs:max-w-2xs text-white font-medium">
-					<router-link :to="'/costumers'">
-						Ir para Clientes
-						<font-awesome-icon icon="fa-solid fa-up-right-from-square" class="ml-1"/>
-					</router-link>
-				</button>
-				<button id="cancel" class="xs:hidden border-sky-600 border-2 rounded px-3 py-2 w-full xs:max-w-2xs font-medium" @click="($('#addDebtModal') as any).close()">Cancelar</button>
-			</div>
+		<div>
+			<form method="dialog" id="addDebtForm" class="space-y-4 text-left w-fit mx-auto">
+
+				<fieldset>
+					<label for="selectCostumerInput">
+						<p>Nome do cliente</p>
+						<select v-model="costumerName" v-if="costumers.length != 0"
+							:class="inputClasses" id="selectCostumerInput"
+							name="selectCostumerInput" required="true">
+							<option v-for="costumer in costumers" :key="costumer" :value="costumer">
+								{{ costumer }}
+							</option>
+						</select>
+					</label>
+				</fieldset>
+
+				<fieldset>
+					<label for="priceInput">
+						<p>Valor</p>
+						<input :class="inputClasses" v-model="price" type="number" min="0.01"
+							step="0.01" id="priceInput" required="true">
+					</label>
+				</fieldset>
+
+				<fieldset>
+					<label for="descriptionInput">
+						<p>Descrição</p>
+						<input :class="inputClasses" v-model="description" type="text"
+							id="descriptionInput" required="true">
+					</label>
+				</fieldset>
+
+				<fieldset>
+					<label for="dateInput">
+						<p>Data</p>
+						<input :class="inputClasses" v-model="date" type="date" id="dateInput"
+							required="true">
+					</label>
+				</fieldset>
+
+				<div class="space-x-16 pt-6">
+					<button class="border-2 border-red-500 px-4 py-2 xs:px-3 xs:py-1.5 rounded" value="cancel"
+						@click="$('#addDebtModal').close(); $('#addDebtForm').reset()">Cancelar</button>
+					<button class="border-2 border-blue-500 bg-blue-500 text-white px-4 py-2 xs:px-3 xs:py-1.5 rounded" id="confirmBtn" value="default"
+						@click="add(costumerName, newDebt); $('#addDebtForm').reset()">Adicionar</button>
+				</div>
+			</form>
 		</div>
-		<form method="dialog" v-else class="space-y-4">
-			<fieldset>
-				<label>Nome do cliente:
-					<select v-model="costumerName" v-if="costumers.length != 0" >
-						<option value="">Escolha</option>
-						<option v-for="costumer in costumers" :key="costumer" :value="costumer">
-							{{ costumer }}
-						</option>
-					</select>
-				</label>
-			</fieldset>
-
-			<fieldset>
-				<input v-model="price" type="number" placeholder="Valor" min="0" step="0.01">
-			</fieldset>
-
-			<fieldset>
-				<input v-model="description" type="text" placeholder="Descrição">
-			</fieldset>
-
-			<fieldset>
-				<input v-model="date" type="date" placeholder="Data">
-			</fieldset>
-
-			<div class="space-x-20">
-				<button class="border-2 border-red-500 px-2 rounded-lg" value="cancel">Cancelar</button>
-				<button class="border-2 border-blue-500 px-2 rounded-lg" id="confirmBtn" value="default"
-					@click="add(costumerName, newDebt)">Adicionar</button>
-			</div>
-		</form>
 	</dialog>
 </template>
 
@@ -55,13 +58,16 @@ import { ref, computed } from 'vue';
 import { useAppStore } from "@/store/index"
 import IUser from '@/interfaces/IUser';
 import IDebt from '@/interfaces/IDebt';
+import ICostumer from '@/interfaces/ICostumer';
 import addDebt from "@/util/addDebt"
 import getUserData from "@/util/getUserData"
 import AddDebtButton from "./AddDebtButton.vue";
 
+const inputClasses = 'bg-gray-200 rounded-md border-2 border-gray-300 focus:border-gray-600'
+
 const store = useAppStore()
 const userId = computed(() => store.userId)
-const costumers = computed(() => store.allCostumersNames)
+const costumers = computed(() => store.allCostumersNames as ICostumer["name"][])
 
 //Formulário
 const date = ref('')
@@ -93,7 +99,7 @@ function add(costumer: string, debt: IDebt): void {
 	}
 }
 
-const $ = (e: string) => document.querySelector(e)
+const $ = (e: string): any => document.querySelector(e)
 </script>
 
 <style scoped>
@@ -103,7 +109,12 @@ input::-webkit-inner-spin-button {
 	margin: 0;
 }
 
-#addDebtModal::backdrop{
+#addDebtModal::backdrop {
 	background-color: rgb(0, 0, 0, 0.25);
+}
+
+input, select{
+	width: 100%;
+	outline: none;
 }
 </style>

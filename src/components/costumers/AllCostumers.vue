@@ -1,6 +1,6 @@
 <template>
     <div v-for="name in filterCostumersNames" :key="name">
-        <CostumerData :costumerName="name" :extraInfo="true" class="border-2 border-amber-500 rounded max-w-3xl mx-auto space-y-4"/>
+        <CostumerData :costumerData="costumersData[name]" :extraInfo="true" class="border-2 border-amber-500 rounded max-w-3xl mx-auto space-y-4"/>
     </div>
 </template>
 
@@ -16,10 +16,10 @@ const costumersStore = useCostumersStore()
 const searchName = computed(() => costumersStore.searchName)
 const allCostumersNames = computed(() => appStore.allCostumersNames as ICostumer["name"][])
 const costumersData = computed(() => appStore.costumersData as IUser["costumers"])
-const filterCostumersNames = ref([] as ICostumer["name"][])
+const filterCostumersNames = ref(allCostumersNames.value as ICostumer["name"][])
 
 function filterName(searchName: string, nameRef: string) {
-    return searchName.length > 0 ? nameRef.toLowerCase().includes(searchName.toLowerCase()) : nameRef
+    return searchName.length > 0 ? nameRef.toLowerCase().includes(searchName.toLowerCase()) : true
 }
 
 watch([costumersData, searchName], () => {

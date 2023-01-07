@@ -41,7 +41,7 @@ function register() {
   createUserWithEmailAndPassword(auth, email.value, password.value)
     .then((data) => {
       console.log("Registro realizado com sucesso");
-      router.value.push("/debts");
+      router.value.push("/");
     })
     .catch((error) => {
       console.log(error.code);
@@ -55,7 +55,7 @@ function logInWithGoogle() {
     .then((result) => {
       console.log("Registro realizado com sucesso");
       console.log(result.user);
-      router.value.push("/debts");
+      router.value.push("/");
     })
     .catch((error) => {
       console.log(error.message);

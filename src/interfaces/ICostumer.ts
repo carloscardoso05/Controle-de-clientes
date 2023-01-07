@@ -8,5 +8,5 @@ export default interface ICostumer {
     email?: string;
     phoneNumber1?: string;
     phoneNumber2?: string;
-    adress?: string;
+    address?: string;
 }
