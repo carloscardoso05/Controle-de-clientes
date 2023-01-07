@@ -8,9 +8,8 @@
 				<fieldset>
 					<label for="selectCostumerInput">
 						<p>Nome do cliente</p>
-						<select v-model="costumerName" v-if="costumers.length != 0"
-							:class="inputClasses" id="selectCostumerInput"
-							name="selectCostumerInput" required="true">
+						<select v-model="costumerName" v-if="costumers.length != 0" :class="inputClasses"
+							id="selectCostumerInput" name="selectCostumerInput" required="true">
 							<option v-for="costumer in costumers" :key="costumer" :value="costumer">
 								{{ costumer }}
 							</option>
@@ -21,32 +20,31 @@
 				<fieldset>
 					<label for="priceInput">
 						<p>Valor</p>
-						<input :class="inputClasses" v-model="price" type="number" min="0.01"
-							step="0.01" id="priceInput" required="true">
+						<input :class="inputClasses" v-model="price" type="number" min="0.01" step="0.01"
+							id="priceInput" required="true">
 					</label>
 				</fieldset>
 
 				<fieldset>
 					<label for="descriptionInput">
 						<p>Descrição</p>
-						<input :class="inputClasses" v-model="description" type="text"
-							id="descriptionInput" required="true">
+						<input :class="inputClasses" v-model="description" type="text" id="descriptionInput"
+							required="true">
 					</label>
 				</fieldset>
 
 				<fieldset>
 					<label for="dateInput">
 						<p>Data</p>
-						<input :class="inputClasses" v-model="date" type="date" id="dateInput"
-							required="true">
+						<input :class="inputClasses" v-model="date" type="date" id="dateInput" required="true">
 					</label>
 				</fieldset>
 
 				<div class="space-x-16 pt-6">
 					<button class="border-2 border-red-500 px-4 py-2 xs:px-3 xs:py-1.5 rounded" value="cancel"
-						@click="$('#addDebtModal').close(); $('#addDebtForm').reset()">Cancelar</button>
-					<button class="border-2 border-blue-500 bg-blue-500 text-white px-4 py-2 xs:px-3 xs:py-1.5 rounded" id="confirmBtn" value="default"
-						@click="add(costumerName, newDebt); $('#addDebtForm').reset()">Adicionar</button>
+						@click="$('#addDebtModal').close()">Cancelar</button>
+					<button class="border-2 border-blue-500 bg-blue-500 text-white px-4 py-2 xs:px-3 xs:py-1.5 rounded"
+						id="confirmBtn" value="default" @click="add(costumerName, newDebt)">Adicionar</button>
 				</div>
 			</form>
 		</div>
@@ -89,12 +87,20 @@ const newDebt = computed((): IDebt => {
 	}
 })
 
+function formReset() {
+	date.value = ''
+	costumerName.value = ''
+	description.value = ''
+	price.value = NaN
+}
+
 function add(costumer: string, debt: IDebt): void {
 	if (costumer != '' && date.value.length == 10 && debt.description != '' && debt.price > 0) {
 		addDebt(userId.value, costumer, debt).then(() => {
 			getUserData(userId.value).then((data) => { 	// Carrega os dados novamente
 				store.userData = data as IUser
 			})
+			formReset()
 		})
 	}
 }
@@ -113,7 +119,8 @@ input::-webkit-inner-spin-button {
 	background-color: rgb(0, 0, 0, 0.25);
 }
 
-input, select{
+input,
+select {
 	width: 100%;
 	outline: none;
 }
