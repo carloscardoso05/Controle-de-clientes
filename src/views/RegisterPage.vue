@@ -36,8 +36,11 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "@/main";
 import { useRouter } from "vue-router";
 import { useAppStore } from "@/store";
+import IUser from "@/interfaces/IUser";
 
 const appStore = useAppStore()
 const email = ref("");
@@ -47,8 +50,13 @@ const router = ref(useRouter());
 function register() {
   const auth = getAuth();
   createUserWithEmailAndPassword(auth, email.value, password.value)
-    .then((data) => {
+    .then(async (data) => {
       console.log("Registro realizado com sucesso");
+      const userName = appStore.userName
+      await setDoc(doc(db, "users", data.user.uid), {
+        costumers: {} as IUser["costumers"],
+        userName: userName
+      } as IUser);
       router.value.push("/");
     })
     .catch((error) => {
@@ -60,9 +68,14 @@ function register() {
 function logInWithGoogle() {
   const provider = new GoogleAuthProvider();
   signInWithPopup(getAuth(), provider)
-    .then((result) => {
+    .then(async (result) => {
       console.log("Registro realizado com sucesso");
       console.log(result.user);
+      const userName = appStore.userName
+      await setDoc(doc(db, "users", result.user.uid), {
+        costumers: {} as IUser["costumers"],
+        userName: userName
+      } as IUser);
       router.value.push("/");
     })
     .catch((error) => {
