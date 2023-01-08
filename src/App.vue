@@ -70,14 +70,19 @@ function handleSignOut() {
 
   signOut(auth.value).then(() => {
     router.push("/login");
-    appStore.$reset()
     appStore.userId = ''
   });
 }
 
 onMounted(() => {
-  onAuthStateChanged(auth.value, (user) => user ? isLoggedIn.value = true : isLoggedIn.value = false);
-  appStore.userId = getAuth().currentUser?.uid as string
+  onAuthStateChanged(auth.value, (user) => {
+    if(user){
+      isLoggedIn.value = true
+      appStore.userId = user.uid
+    } else {
+      isLoggedIn.value = false
+    }
+  });
 });
 </script>
 

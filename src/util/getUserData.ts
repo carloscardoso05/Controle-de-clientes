@@ -1,8 +1,5 @@
-import IUser from "@/interfaces/IUser";
 import { db } from "@/main";
 import { doc, getDoc } from "firebase/firestore";
-import { useAppStore } from "@/store";
-const appStore = useAppStore()
 
 export default async function getUserData(userId: string) {
     const docRef = doc(db, "users", userId);

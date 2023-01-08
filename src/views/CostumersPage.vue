@@ -23,6 +23,8 @@ import { useAppStore } from "../store/index";
 import getUserData from "@/util/getUserData"
 import IUser from "@/interfaces/IUser";
 import LoadingComponent from '@/components/LoadingComponent.vue';
+import { getAuth } from "@firebase/auth";
+
 
 const appStore = useAppStore()
 const userId = computed(() => appStore.userId)
