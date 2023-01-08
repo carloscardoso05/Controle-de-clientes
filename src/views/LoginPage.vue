@@ -31,7 +31,9 @@
 import { ref } from "vue";
 import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, } from "firebase/auth";
 import { useRouter } from "vue-router";
+import { useAppStore } from "@/store";
 
+const appStore = useAppStore()
 const email = ref("");
 const password = ref("");
 const router = ref(useRouter());
@@ -43,6 +45,7 @@ function logIn() {
     .then((result) => {
       console.log("Login realizado com sucesso");
       console.log("Current User:", result.user.uid);
+      appStore.userId = result.user.uid
       router.value.push("/");
     })
     .catch((error) => {
@@ -71,6 +74,7 @@ function logInWithGoogle() {
     .then((result) => {
       console.log("Login realizado com sucesso");
       console.log("Current User:", result.user.uid);
+      appStore.userId = result.user.uid
       router.value.push("/");
     })
     .catch((error) => {

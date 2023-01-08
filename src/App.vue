@@ -24,9 +24,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import router from "./router";
+import { useAppStore } from "./store";
 
 const links = ref([
   {
@@ -51,11 +52,13 @@ const links = ref([
   },
 ])
 
+const appStore = useAppStore()
+
 const routerLinks = computed(() => {
   if(isLoggedIn.value){
     return links.value.filter((link) => link.showIfLogged)
   } else {
-    return links.value
+    return links.value.filter((link) => !link.showIfLogged)
   }
 })
 
@@ -66,12 +69,15 @@ function handleSignOut() {
   console.log("Usuário deslogado");
 
   signOut(auth.value).then(() => {
-    router.push("/");
+    router.push("/login");
+    appStore.$reset()
+    appStore.userId = ''
   });
 }
 
 onMounted(() => {
   onAuthStateChanged(auth.value, (user) => user ? isLoggedIn.value = true : isLoggedIn.value = false);
+  appStore.userId = getAuth().currentUser?.uid as string
 });
 </script>
 

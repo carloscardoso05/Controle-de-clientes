@@ -50,13 +50,16 @@ const router = ref(useRouter());
 function register() {
   const auth = getAuth();
   createUserWithEmailAndPassword(auth, email.value, password.value)
-    .then(async (data) => {
+    .then(async (result) => {
       console.log("Registro realizado com sucesso");
+
       const userName = appStore.userName
-      await setDoc(doc(db, "users", data.user.uid), {
+      await setDoc(doc(db, "users", result.user.uid), {
         costumers: {} as IUser["costumers"],
         userName: userName
       } as IUser);
+
+      appStore.userId = result.user.uid
       router.value.push("/");
     })
     .catch((error) => {
@@ -71,11 +74,14 @@ function logInWithGoogle() {
     .then(async (result) => {
       console.log("Registro realizado com sucesso");
       console.log(result.user);
+
       const userName = appStore.userName
       await setDoc(doc(db, "users", result.user.uid), {
         costumers: {} as IUser["costumers"],
         userName: userName
       } as IUser);
+
+      appStore.userId = result.user.uid
       router.value.push("/");
     })
     .catch((error) => {

@@ -1,12 +1,11 @@
 <template>
-    <div class="w-full max-w-md mx-auto px-3">
-        <AlertText :text="'Nem um débito adicionado ainda.'"/>
+    <div class="w-full max-w-md mx-auto px-3" v-if="noDebtToShow">
+        <AlertText :text="'Nem um débito adicionado ainda.'" />
     </div>
 
     <div v-for="name in filterCostumersNames" :key="name">
         <CostumersDebts class="border-2 border-amber-500 rounded max-w-3xl mx-auto space-y-4"
-            :costumerData="costumersData[name]"
-            v-if="costumersData[name]['totalDebt' as keyof ICostumer] != 0" />
+            :costumerData="costumersData[name]" v-if="costumersData[name]['totalDebt' as keyof ICostumer] != 0" />
     </div>
 </template>
 
@@ -21,9 +20,20 @@ import AlertText from "../AlertText.vue";
 const appStore = useAppStore()
 const debtsStore = useDebtsStore()
 const searchName = computed(() => debtsStore.searchName)
-const costumersData = computed(() => appStore.costumersData as IUser["costumers"])
-const allCostumersNames = computed(() => appStore.allCostumersNames as ICostumer["name"][])
-const filterCostumersNames = ref(allCostumersNames.value as ICostumer["name"][])
+const costumersData = computed<IUser["costumers"]>(() => appStore.costumersData)
+const allCostumersNames = computed<ICostumer["name"][]>(() => appStore.allCostumersNames)
+const filterCostumersNames = ref<ICostumer["name"][]>(allCostumersNames.value)
+
+const noDebtToShow = computed(() => {
+    let noneDebt = true
+    for (let costumer in costumersData.value) {
+        if(costumersData.value[costumer].totalDebt != 0){
+            noneDebt = false
+            break
+        }
+    }
+    return noneDebt
+})
 
 function filterName(searchName: string, name: string) {
     return searchName.length > 0 ? name.toLowerCase().includes(searchName.toLowerCase()) : true

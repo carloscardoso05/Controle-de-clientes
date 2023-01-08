@@ -29,14 +29,14 @@
 					<label for="descriptionInput">
 						<p>Descrição</p>
 						<input :class="inputClasses" v-model="description" type="text" id="descriptionInput"
-							required="true">
+							required="true" autocapitalize="on" autocomplete="off">
 					</label>
 				</fieldset>
 
 				<fieldset>
 					<label for="dateInput">
 						<p>Data</p>
-						<input :class="inputClasses" v-model="date" type="date" id="dateInput" required="true">
+						<input :class="inputClasses" v-model="date" type="date" id="dateInput" required="true" maxlength="10">
 					</label>
 				</fieldset>
 
