@@ -5,29 +5,33 @@
 		<div>
 			<form method="dialog" class="space-y-4 text-left w-fit mx-auto">
 				<fieldset>
-					<label>Nome do cliente:
+					<label>
+						<p>Nome do cliente</p>
 						<input :class="inputClasses" type="text" v-model="name" required="true">
 					</label>
 				</fieldset>
 				<fieldset>
-					<label for=""> Endereço
+					<label for="">
+						<p>Endereço</p>
 						<input :class="inputClasses" type="text" v-model="address">
 					</label>
 				</fieldset>
 				<fieldset>
-					<label for="">Email
+					<label for="">
+						<p>Email</p>
 						<input :class="inputClasses" type="text" v-model="email">
 					</label>
 				</fieldset>
 				<fieldset>
-					<label class="space-y-1.5">Números de telefone
+					<label class="space-y-1.5">
+						<p>Números de telefone</p>
 						<input :class="inputClasses" type="text" v-model="phoneNumber1" placeholder="Número 1"> <br>
 						<input :class="inputClasses" type="text" v-model="phoneNumber2" placeholder="Número 2">
 					</label>
 				</fieldset>
 				<fieldset>
 					<label for="lastPaymentInput">
-						Último pagamento
+						<p>Último pagamento</p>
 						<input :class="inputClasses" type="date" id="lastPaymentInput" v-model="lastPayment">
 					</label>
 				</fieldset>
