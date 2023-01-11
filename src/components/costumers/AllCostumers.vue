@@ -1,6 +1,6 @@
 <template>
     <div v-for="name in filterCostumersNames" :key="name">
-        <CostumerData :costumerData="costumersData[name]" :extraInfo="true" class="border-2 border-amber-500 rounded max-w-3xl mx-auto space-y-4"/>
+        <CostumerData :costumer="costumersData[name]" :extraInfo="true" class="border-2 border-amber-500 rounded max-w-3xl mx-auto space-y-4"/>
     </div>
 </template>
 
