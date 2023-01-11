@@ -39,8 +39,13 @@
 				<div class="space-x-16 pt-6">
 					<button class="border-2 border-red-500 px-4 py-2 xs:px-3 xs:py-1.5 rounded" value="cancel"
 						@click="$('#addCostumerModal').close()">Cancelar</button>
-					<button class="border-2 border-blue-500 bg-blue-500 text-white px-4 py-2 xs:px-3 xs:py-1.5 rounded" id="confirmBtn" value="default"
-						@click="add(newCostumerFields)">Adicionar</button>
+					<button class="border-2 border-blue-500 bg-blue-500 text-white px-4 py-2 xs:px-3 xs:py-1.5 rounded"
+						id="confirmBtn" value="default"
+						@click="
+						addCostumer(userId, newCostumer);
+						$('#addCostumerModal').close();
+						formReset();
+						">Adicionar</button>
 				</div>
 			</form>
 		</div>
@@ -50,16 +55,14 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
 import { useAppStore } from "@/store/index"
-import IUser from '@/interfaces/IUser';
-import addCostumer from "@/util/addCostumer"
-import getUserData from "@/util/getUserData"
 import ICostumer from '@/interfaces/ICostumer';
 import AddCostumerButton from './AddCostumerButton.vue';
+import { addCostumer } from '@/firebase';
 
 const inputClasses = 'bg-gray-200 rounded-md border-2 border-gray-300 focus:border-gray-600'
 
-const store = useAppStore()
-const userId = computed(() => store.userId)
+const appStore = useAppStore()
+const userId = computed(() => appStore.userId)
 
 //Formulário
 const name = ref('')
@@ -69,7 +72,7 @@ const email = ref('')
 const address = ref('')
 const lastPayment = ref('')
 
-const newCostumerFields = computed((): ICostumer => {
+const newCostumer = computed((): ICostumer => {
 	return {
 		name: name.value,
 		debts: [],
@@ -89,17 +92,6 @@ function formReset() {
 	phoneNumber1.value = ''
 	phoneNumber2.value = ''
 	lastPayment.value = ''
-}
-
-function add(data: ICostumer): void {
-	if (data.name != '') {
-		addCostumer(userId.value, data)
-
-		getUserData(userId.value).then((data) => { 	// Carrega os dados novamente
-			store.userData = data as IUser
-		})
-		formReset()
-	}
 }
 
 const $ = (e: string): any => document.querySelector(e)

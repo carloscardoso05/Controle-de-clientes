@@ -44,7 +44,11 @@
 					<button class="border-2 border-red-500 px-4 py-2 xs:px-3 xs:py-1.5 rounded" value="cancel"
 						@click="$('#addDebtModal').close()">Cancelar</button>
 					<button class="border-2 border-blue-500 bg-blue-500 text-white px-4 py-2 xs:px-3 xs:py-1.5 rounded"
-						id="confirmBtn" value="default" @click="add(costumerName, newDebt)">Adicionar</button>
+						id="confirmBtn" value="default" @click="
+						addDebt(userId, costumerName, newDebt);
+						$('#addDebtModal').close();
+						formReset();
+						">Adicionar</button>
 				</div>
 			</form>
 		</div>
@@ -54,18 +58,16 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
 import { useAppStore } from "@/store/index"
-import IUser from '@/interfaces/IUser';
 import IDebt from '@/interfaces/IDebt';
 import ICostumer from '@/interfaces/ICostumer';
-import addDebt from "@/util/addDebt"
-import getUserData from "@/util/getUserData"
 import AddDebtButton from "./AddDebtButton.vue";
+import { addDebt } from '@/firebase';
 
 const inputClasses = 'bg-gray-200 rounded-md border-2 border-gray-300 focus:border-gray-600'
 
-const store = useAppStore()
-const userId = computed(() => store.userId)
-const costumers = computed(() => store.allCostumersNames as ICostumer["name"][])
+const appStore = useAppStore()
+const userId = computed(() => appStore.userId)
+const costumers = computed(() => appStore.allCostumersNames as ICostumer["name"][])
 
 //Formulário
 const date = ref('')
@@ -92,17 +94,6 @@ function formReset() {
 	costumerName.value = ''
 	description.value = ''
 	price.value = NaN
-}
-
-function add(costumer: string, debt: IDebt): void {
-	if (costumer != '' && date.value.length == 10 && debt.description != '' && debt.price > 0) {
-		addDebt(userId.value, costumer, debt).then(() => {
-			getUserData(userId.value).then((data) => { 	// Carrega os dados novamente
-				store.userData = data as IUser
-			})
-			formReset()
-		})
-	}
 }
 
 const $ = (e: string): any => document.querySelector(e)

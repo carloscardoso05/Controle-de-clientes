@@ -18,26 +18,11 @@ import AllCostumers from '@/components/costumers/AllCostumers.vue';
 import SearchBar from '@/components/SearchBar.vue';
 import AddCostumerModal from '@/components/costumers/AddCostumerModal.vue';
 import { useCostumersStore } from '@/store';
-import { ref, onMounted, computed, watch } from 'vue';
+import { computed } from 'vue';
 import { useAppStore } from "../store/index";
-import getUserData from "@/util/getUserData"
-import IUser from "@/interfaces/IUser";
 import LoadingComponent from '@/components/LoadingComponent.vue';
-import { getAuth } from "@firebase/auth";
 
 
 const appStore = useAppStore()
-const userId = computed(() => appStore.userId)
-const loading = ref(true)
-
-
-onMounted(() => {
-  getUserData(userId.value)
-    .then((data) => {
-      appStore.userData = data as IUser
-      return data as IUser
-    })
-    .then(() => loading.value = false)
-    .catch(e => console.log(e))
-})
+const loading = computed(() => appStore.loading)
 </script>

@@ -1,6 +1,10 @@
 <template>
   <h1 class="text-4xl my-4 font-bold pageName">Registre sua conta</h1>
   <form class="space-y-4">
+    <div class="w-full max-w-md mx-auto px-3">
+      <AlertText :text="errMsg" v-if="errMsg" />
+    </div>
+
     <fieldset class="">
       <input
         class="outline-none border-2 border-purple-300 focus:border-purple-600 bg-gray-100 rounded px-2 py-2 w-3/5 max-w-xs min-w-max"
@@ -36,35 +40,56 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "@/main";
+import { createUser } from "@/firebase";
 import { useRouter } from "vue-router";
 import { useAppStore } from "@/store";
 import IUser from "@/interfaces/IUser";
+import AlertText from "@/components/AlertText.vue";
 
 const appStore = useAppStore()
 const email = ref("");
 const password = ref();
 const router = ref(useRouter());
+const errMsg = ref("")
 
 function register() {
-  const auth = getAuth();
-  createUserWithEmailAndPassword(auth, email.value, password.value)
+  createUserWithEmailAndPassword(getAuth(), email.value, password.value)
     .then(async (result) => {
       console.log("Registro realizado com sucesso");
 
       const userName = appStore.userName
-      await setDoc(doc(db, "users", result.user.uid), {
+      await createUser({
         costumers: {} as IUser["costumers"],
-        userName: userName
-      } as IUser);
+        userName: userName,
+        userId: result.user.uid
+      } as IUser)
 
       appStore.userId = result.user.uid
       router.value.push("/");
     })
     .catch((error) => {
       console.log(error.code);
-      alert(error.message);
+      // alert(error.message)
+      switch (error.code) {
+        case "auth/weak-password":
+          errMsg.value = "Sua senha é muito fraca. Ela deve conter pelo menos 6 caracteres.";
+          break;
+        case "auth/email-already-in-use":
+          errMsg.value = "Esse email já está em uso";
+          break;
+        case "auth/internal-error":
+          errMsg.value = "Senha ausente";
+          break;
+        case "auth/missing-email":
+          errMsg.value = "Email ausente";
+          break;
+        case "auth/invalid-email":
+          errMsg.value = "Email inválido";
+          break;
+        default:
+          errMsg.value = "Email ou senha incorretos";
+          break;
+      }
     });
 }
 
@@ -76,10 +101,12 @@ function logInWithGoogle() {
       console.log(result.user);
 
       const userName = appStore.userName
-      await setDoc(doc(db, "users", result.user.uid), {
+
+      await createUser({
         costumers: {} as IUser["costumers"],
-        userName: userName
-      } as IUser);
+        userName: userName,
+        userId: result.user.uid
+      } as IUser)
 
       appStore.userId = result.user.uid
       router.value.push("/");
@@ -88,11 +115,4 @@ function logInWithGoogle() {
       console.log(error.message);
     });
 }
-
-// return {
-//   register,
-//   logInWithGoogle,
-//   email,
-//   password,
-// };
 </script>

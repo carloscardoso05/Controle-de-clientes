@@ -1,10 +1,9 @@
 <template>
   <h1 class="text-4xl my-4 font-bold pageName">Acesse sua conta</h1>
   <form class="space-y-4">
-    <p v-if="errMsg"
-      class="text-lg font-medium bg-amber-500 bg-opacity-40 border-2 border-amber-500 mx-auto w-3/5 py-1">
-      ⚠ {{ errMsg }}
-    </p>
+    <div class="w-full max-w-md mx-auto px-3">
+        <AlertText :text="errMsg" v-if="errMsg"/>
+    </div>
 
     <fieldset class="">
       <input
@@ -32,6 +31,7 @@ import { ref } from "vue";
 import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, } from "firebase/auth";
 import { useRouter } from "vue-router";
 import { useAppStore } from "@/store";
+import AlertText from "@/components/AlertText.vue";
 
 const appStore = useAppStore()
 const email = ref("");
@@ -40,8 +40,7 @@ const router = ref(useRouter());
 const errMsg = ref("");
 
 function logIn() {
-  const auth = getAuth();
-  signInWithEmailAndPassword(auth, email.value, password.value)
+  signInWithEmailAndPassword(getAuth(), email.value, password.value)
     .then((result) => {
       console.log("Login realizado com sucesso");
       console.log("Current User:", result.user.uid);
@@ -69,7 +68,6 @@ function logIn() {
 
 function logInWithGoogle() {
   const provider = new GoogleAuthProvider();
-  const auth = getAuth();
   signInWithPopup(getAuth(), provider)
     .then((result) => {
       console.log("Login realizado com sucesso");
@@ -81,13 +79,4 @@ function logInWithGoogle() {
       console.log(error.message);
     });
 }
-
-// return {
-//   logIn,
-//   logInWithGoogle,
-//   errMsg,
-//   password,
-//   email,
-// };
-
 </script>

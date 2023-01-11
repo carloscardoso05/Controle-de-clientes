@@ -28,10 +28,8 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, computed, ref } from "vue";
+import { computed } from "vue";
 import { useAppStore } from "../store/index";
-import getUserData from "@/util/getUserData"
-import IUser from "@/interfaces/IUser";
 import AllDebts from "@/components/debts/AllDebts.vue";
 import AddDebtModal from "@/components/debts/AddDebtModal.vue";
 import SearchBar from "@/components/SearchBar.vue";
@@ -40,19 +38,6 @@ import LoadingComponent from "@/components/LoadingComponent.vue";
 import AlertText from "@/components/AlertText.vue";
 
 const appStore = useAppStore()
-const userId = computed(() => appStore.userId)
 const allCostumersNames = computed(() => appStore.allCostumersNames)
-const loading = ref(true)
-
-onMounted(() => {
-  getUserData(userId.value)
-    .then((data) => {
-      appStore.userData = data as IUser
-      return data as IUser
-    })
-    .then(() => loading.value = false)
-    .catch(e => console.log(e))
-})
-
-const $ = (e: string) => document.querySelector(e)
+const loading = computed(() => appStore.loading)
 </script>

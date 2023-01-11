@@ -24,10 +24,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, computed, watch } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import router from "./router";
 import { useAppStore } from "./store";
+import { onSnapshot, doc } from "@firebase/firestore";
+import { db } from "./main";
+import IUser from "./interfaces/IUser";
 
 const links = ref([
   {
@@ -53,6 +56,7 @@ const links = ref([
 ])
 
 const appStore = useAppStore()
+const userId = computed(() => appStore.userId)
 
 const routerLinks = computed(() => {
   if(isLoggedIn.value){
@@ -78,9 +82,15 @@ onMounted(() => {
   onAuthStateChanged(auth.value, (user) => {
     if(user){
       isLoggedIn.value = true
-      appStore.userId = user.uid
+      appStore.userId = user.uid     
+
+      onSnapshot(doc(db, "users", userId.value), (doc) => {
+        appStore.userData = doc.data() as IUser
+        appStore.loading = false
+      })
     } else {
       isLoggedIn.value = false
+      appStore.userId = ''      
     }
   });
 });

@@ -6,26 +6,25 @@
             <div class="space-x-20">
                 <button class="border-2 border-red-500 px-2 rounded-lg" value="cancel">Cancelar</button>
                 <button class="border-2 border-red-500 bg-red-400 px-2 rounded-lg" id="confirmBtn" value="default"
-                    @click="deleteDebt()">Apagar</button>
+                    @click="deleteDebt(userId, props.costumerName, props.debt)">Apagar</button>
             </div>
         </form>
     </dialog>
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps } from "vue"
+import { computed, defineProps, PropType } from "vue"
 import { useAppStore } from "@/store/index"
 import DeleteDebtButton from "./DeleteDebtButton.vue";
-import delDebt from "@/util/delDebt"
-import getUserData from "@/util/getUserData";
-import IUser from "@/interfaces/IUser";
+import { deleteDebt } from "@/firebase";
+import IDebt from "@/interfaces/IDebt";
 
 const appStore = useAppStore()
 const userId = computed(() => appStore.userId)
 
 const props = defineProps({
     debt: {
-        type: Object,
+        type: Object as PropType<IDebt>,
         required: true
     },
     costumerName: {
@@ -33,12 +32,4 @@ const props = defineProps({
         required: true
     }
 })
-
-function deleteDebt() {
-    delDebt(userId.value, props.costumerName, props.debt).then(() => {
-        getUserData(userId.value).then((data) => { 	// Carrega os dados novamente
-            appStore.userData = data as IUser
-        })
-    })
-}
 </script>
