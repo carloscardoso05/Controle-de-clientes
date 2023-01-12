@@ -1,21 +1,9 @@
 <template>
-	<AddDebtButton />
+	<EditButton :modalId="'editDebtModal'" />
 
-	<dialog id="addDebtModal" class="shadow-lg rounded w-full max-w-xl">
+	<dialog id="editDebtModal" class="shadow-lg rounded w-full max-w-xl">
 		<div>
-			<form method="dialog" id="addDebtForm" class="space-y-4 text-left w-fit mx-auto">
-
-				<fieldset>
-					<label for="selectCostumerInput">
-						<p>Nome do cliente</p>
-						<select v-model="costumerName" v-if="costumers.length != 0" :class="inputClasses"
-							id="selectCostumerInput" name="selectCostumerInput" required="true">
-							<option v-for="costumer in costumers" :key="costumer" :value="costumer">
-								{{ costumer }}
-							</option>
-						</select>
-					</label>
-				</fieldset>
+			<form method="dialog" id="editDebtForm" class="space-y-4 text-left w-fit mx-auto">
 
 				<fieldset>
 					<label for="priceInput">
@@ -42,11 +30,11 @@
 
 				<div class="space-x-16 pt-6">
 					<button class="border-2 border-red-500 px-4 py-2 xs:px-3 xs:py-1.5 rounded" value="cancel"
-						@click="$('#addDebtModal').close()">Cancelar</button>
+						@click="$('#editDebtModal').close()">Cancelar</button>
 					<button class="border-2 border-blue-500 bg-blue-500 text-white px-4 py-2 xs:px-3 xs:py-1.5 rounded"
 						id="confirmBtn" value="default" @click="
-						addDebt(userId, costumerName, newDebt);
-						$('#addDebtModal').close();
+						updateDebt(userId, costumerName, props.debt, newDebt);
+						$('#editDebtModal').close();
 						formReset();
 						">Adicionar</button>
 				</div>
@@ -56,29 +44,37 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
+import { ref, computed, defineProps, PropType } from 'vue';
 import { useAppStore } from "@/store/index"
 import IDebt from '@/interfaces/IDebt';
-import ICostumer from '@/interfaces/ICostumer';
-import AddDebtButton from "./AddDebtButton.vue";
-import { addDebt } from '@/firebase';
+import EditButton from '../EditButton.vue';
+import { updateDebt } from '@/firebase';
 
 const inputClasses = 'bg-gray-200 rounded-md border-2 border-gray-300 focus:border-gray-600'
 
+const props = defineProps({
+    debt: {
+        type : Object as PropType<IDebt>,
+        required: true
+    },
+    costumerName: {
+        type: String,
+        required: true
+    }
+})
+
 const appStore = useAppStore()
 const userId = computed(() => appStore.userId)
-const costumers = computed(() => appStore.allCostumersNames as ICostumer["name"][])
 
 //Formulário
-const date = ref('')
+const date = ref(new Date((props.debt.dateTime.toJSON() as any)["seconds"] * 1000).toISOString().slice(0, 10))
 const year = computed(() => Number(date.value.substring(0, 4)));
 const month = computed(() => Number(date.value.substring(5, 7)));
 const day = computed(() => Number(date.value.substring(8, 10)));
 const dateTime = computed(() => new Date(year.value, month.value - 1, day.value))
 
-const costumerName = ref('')
-const description = ref('')
-const price = ref(NaN)
+const description = ref(props.debt.description)
+const price = ref(props.debt.price)
 
 const newDebt = computed((): IDebt => {
 	return {
@@ -91,7 +87,6 @@ const newDebt = computed((): IDebt => {
 
 function formReset() {
 	date.value = ''
-	costumerName.value = ''
 	description.value = ''
 	price.value = NaN
 }
