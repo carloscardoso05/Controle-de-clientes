@@ -1,7 +1,7 @@
 <template>
-	<EditButton :modalId="'editDebtModal'" />
+	<EditButton :modalId="modalId" />
 
-	<dialog id="editDebtModal" class="shadow-lg rounded w-full max-w-xl">
+	<dialog :id="modalId" class="shadow-lg rounded w-full max-w-xl">
 		<div>
 			<form method="dialog" id="editDebtForm" class="space-y-4 text-left w-fit mx-auto">
 
@@ -30,7 +30,10 @@
 
 				<div class="space-x-16 pt-6">
 					<button class="border-2 border-red-500 px-4 py-2 xs:px-3 xs:py-1.5 rounded" value="cancel"
-						@click="$('#editDebtModal').close()">Cancelar</button>
+						@click="
+						$('#editDebtModal').close();
+						formReset();
+						">Cancelar</button>
 					<button class="border-2 border-blue-500 bg-blue-500 text-white px-4 py-2 xs:px-3 xs:py-1.5 rounded"
 						id="confirmBtn" value="default" @click="
 						updateDebt(userId, costumerName, props.debt, newDebt);
@@ -51,6 +54,8 @@ import EditButton from '../EditButton.vue';
 import { updateDebt } from '@/firebase';
 
 const inputClasses = 'bg-gray-200 rounded-md border-2 border-gray-300 focus:border-gray-600'
+
+const modalId = computed(() => `editDebtModal${props.debt.id}`)
 
 const props = defineProps({
     debt: {

@@ -4,7 +4,7 @@
             <h2 class="text-2xl font-medium text-left ml-4">{{ costumer.name }}</h2>
         </span>
         <div class="text-left ml-8 border-l-2 pl-1 border-gray-400 flex place-content-between"
-            v-for="debt in costumer.debts" :key="debt.id">
+            v-for="debt in costumer.debts" :key="debt.dateTime.toString()">
             <div>
                 <p>{{ capitalize(debt.description) }}: {{ formatMoney(debt.price) }}</p>
                 <p>{{ getDateString(debt.id) }}</p>
