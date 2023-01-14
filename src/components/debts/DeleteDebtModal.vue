@@ -1,6 +1,6 @@
 <template>
-    <DeleteButton :modalId="'deleteDebtModal'" :class="$attrs.class"/>
-    <dialog id="deleteDebtModal" class="border-2 border-red-500 rounded absolute top-1/4">
+    <DeleteButton :modalId="`deleteDebtModal${debt.id}`" :class="$attrs.class"/>
+    <dialog :id="`deleteDebtModal${debt.id}`" class="shadow-lg rounded">
         <form method="dialog" class="space-y-4">
             <h1>Deseja mesmo apagar?</h1>
             <div class="space-x-20">

@@ -58,11 +58,12 @@ function register() {
       console.log("Registro realizado com sucesso");
 
       const userName = appStore.userName
-      await createUser({
+      const newUser:IUser = {
         costumers: {} as IUser["costumers"],
         userName: userName,
         userId: result.user.uid
-      } as IUser)
+      }
+      await createUser(newUser)
 
       appStore.userId = result.user.uid
       router.value.push("/");
