@@ -1,7 +1,7 @@
 <template>
 	<div class="rounded-md max-w-3xl mx-auto space-y-6 border shadow-inner py-4">
 		<div class="xs:mx-8 mx-2 mt-2 border-b border-neutral-400 flex justify-between">
-			<h1 class="text-3xl font-medium">{{ costumerData.name }}</h1>
+			<h1 class="text-2xl font-medium text-left">{{ costumerData.name }}</h1>
 			<h2 class="shrink-0 max-w-fit text-right tabular-nums text-lg">{{ formatMoney(costumerData.totalDebt) }}</h2>
 		</div>
 
@@ -10,7 +10,7 @@
 				<div class="grow ml-4">
 					<div>
 						<p class="text-sm font-light">{{ getDateString((debt.dateTime.toJSON() as any)["seconds"] * 1000) }}</p>
-						<p class="text-2xl font-medium">{{ capitalize(debt.description) }}</p>
+						<p class="text-xl font-medium">{{ capitalize(debt.description) }}</p>
 					</div>
 					<p class="align-bottom tabular-nums underline decoration-solid decoration-emerald-500">{{ formatMoney(debt.price) }}</p>
 				</div>
