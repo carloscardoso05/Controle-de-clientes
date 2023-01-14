@@ -1,6 +1,6 @@
 <template>
     <button
-        class="border-2 px-3 py-1 text-xl rounded border-red-300 active:bg-red-200 text-gray-700 hover:bg-red-200"
+        class="px-3 py-2 text-xl border-box rounded text-white bg-red-400 hover:bg-red-500 transition-colors border border-red-500"
         @click="showModal(modalId)" id="deleteButton">
         <font-awesome-icon icon="fa-solid fa-trash" class="" />
     </button>

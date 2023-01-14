@@ -1,5 +1,5 @@
 <template>
-	<EditButton :modalId="modalId" />
+	<EditButton :modalId="modalId" :class="$attrs.class"/>
 
 	<dialog :id="modalId" class="shadow-lg rounded w-full max-w-xl">
 		<div>
@@ -97,6 +97,12 @@ function formReset() {
 }
 
 const $ = (e: string): any => document.querySelector(e)
+</script>
+
+<script lang="ts">
+export default {
+	inheritAttrs: false
+}
 </script>
 
 <style scoped>

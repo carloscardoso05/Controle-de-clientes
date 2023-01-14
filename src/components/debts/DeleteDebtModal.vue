@@ -1,5 +1,5 @@
 <template>
-    <DeleteButton :modalId="'deleteDebtModal'"/>
+    <DeleteButton :modalId="'deleteDebtModal'" :class="$attrs.class"/>
     <dialog id="deleteDebtModal" class="border-2 border-red-500 rounded absolute top-1/4">
         <form method="dialog" class="space-y-4">
             <h1>Deseja mesmo apagar?</h1>
@@ -32,4 +32,10 @@ const props = defineProps({
         required: true
     }
 })
+</script>
+
+<script lang="ts">
+export default {
+	inheritAttrs: false
+}
 </script>

@@ -7,7 +7,8 @@
         <font-awesome-icon icon="fa-solid fa-plus" class="inline-block" />
     </button>
 
-    <button @click="showModal(modalId)" class="xs:hidden fixed bottom-3 right-3 rounded-full border-2 bg-white w-14 h-14">
+    <button @click="showModal(modalId)"
+        class="xs:hidden fixed bottom-3 right-3 rounded-full border-2 bg-white w-14 h-14">
         <font-awesome-icon icon="fa-solid fa-circle-plus" class="text-blue-600 h-full aspect-square" />
     </button>
 </template>

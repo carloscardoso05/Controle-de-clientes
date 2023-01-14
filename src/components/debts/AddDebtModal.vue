@@ -21,7 +21,7 @@
 					<label for="priceInput">
 						<p>Valor</p>
 						<input :class="inputClasses" v-model="price" type="number" min="0.01" step="0.01"
-							id="priceInput" required="true">
+							id="priceInput" required="true" name="priceInput">
 					</label>
 				</fieldset>
 
@@ -29,22 +29,22 @@
 					<label for="descriptionInput">
 						<p>Descrição</p>
 						<input :class="inputClasses" v-model="description" type="text" id="descriptionInput"
-							required="true" autocapitalize="on" autocomplete="off">
+							required="true" autocapitalize="on" autocomplete="off" name="descriptionInput">
 					</label>
 				</fieldset>
 
 				<fieldset>
 					<label for="dateInput">
 						<p>Data</p>
-						<input :class="inputClasses" v-model="date" type="date" id="dateInput" required="true" maxlength="10">
+						<input :class="inputClasses" v-model="date" type="date" id="dateInput" required="true" maxlength="10" name="dateInput">
 					</label>
 				</fieldset>
 
 				<div class="space-x-16 pt-6">
 					<button class="border-2 border-red-500 px-4 py-2 xs:px-3 xs:py-1.5 rounded" value="cancel"
-						@click="$('#addDebtModal').close()">Cancelar</button>
+						@click.prevent="$('#addDebtModal').close()">Cancelar</button>
 					<button class="border-2 border-blue-500 bg-blue-500 text-white px-4 py-2 xs:px-3 xs:py-1.5 rounded"
-						id="confirmBtn" value="default" @click="
+						id="confirmBtn" value="default" @click.prevent="
 						addDebt(userId, costumerName, newDebt);
 						$('#addDebtModal').close();
 						formReset();

@@ -20,7 +20,7 @@
     </button>
   </nav>
 
-  <router-view />
+  <router-view/>
 </template>
 
 <script lang="ts" setup>
@@ -102,6 +102,7 @@ onMounted(() => {
 :root {
   --rubik: 'Rubik', sans-serif;
   --nunito: 'Nunito', sans-serif;
+  background-color: #f1f5f9;
 }
 
 .pageName {

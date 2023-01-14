@@ -4,8 +4,8 @@
     </div>
 
     <div v-for="name in filterCostumersNames" :key="name">
-        <CostumersDebts class="border-2 border-amber-500 rounded max-w-3xl mx-auto space-y-4" 
-        :costumerData="costumersData[name]" v-if="costumersData[name]['totalDebt' as keyof ICostumer] != 0" />
+        <CostumersDebts :costumerData="costumersData[name]"
+            v-if="costumersData[name]['totalDebt' as keyof ICostumer] != 0" />
     </div>
 </template>
 
@@ -27,7 +27,7 @@ const filterCostumersNames = ref<ICostumer["name"][]>(allCostumersNames.value)
 const noDebtToShow = computed(() => {
     let noneDebt = true
     for (let costumer in costumersData.value) {
-        if(costumersData.value[costumer].totalDebt != 0){
+        if (costumersData.value[costumer].totalDebt != 0) {
             noneDebt = false
             break
         }
