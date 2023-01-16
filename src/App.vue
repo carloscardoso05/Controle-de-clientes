@@ -8,13 +8,13 @@
     </span>
 
     <button
-      class="sm:hidden px-2 rounded-lg border-2 border-red-500 p-1 text-slate-800 text-sm font-medium hover:bg-red-400 hover:text-slate-900"
+      class="sm:hidden px-2 rounded-lg border border-red-500 bg-red-300 transition-colors p-1 text-slate-800 text-sm font-medium hover:bg-red-400 hover:text-slate-900"
       @click="handleSignOut" v-if="isLoggedIn">
       Sair
     </button>
 
     <button
-      class="hidden sm:inline-block rounded-lg border-2 border-red-500 p-1 text-slate-800 text-sm font-medium hover:bg-red-400 hover:text-slate-900"
+      class="hidden sm:inline-block rounded-lg border border-red-500 bg-red-300 transition-colors p-1 text-slate-800 text-sm font-medium hover:bg-red-400 hover:text-slate-900"
       @click="handleSignOut" v-if="isLoggedIn">
       Sair da conta
     </button>
