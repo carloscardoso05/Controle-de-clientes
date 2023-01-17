@@ -31,13 +31,12 @@
 				</fieldset>
 
 				<div class="space-x-16 pt-6">
-					<button class="border-2 border-red-500 px-4 py-2 xs:px-3 xs:py-1.5 rounded" value="cancel"
+					<button class="bg-red-500 text-white px-4 py-2 xs:px-3 xs:py-1.5 rounded" value="cancel"
 						@click="$('#addCostumerModal').close()">Cancelar</button>
-					<button class="border-2 border-blue-500 bg-blue-500 text-white px-4 py-2 xs:px-3 xs:py-1.5 rounded"
+					<button :disabled="invalid" :class="{ 'bg-blue-300': invalid }" class="bg-blue-500 text-white px-4 py-2 xs:px-3 xs:py-1.5 rounded"
 						id="confirmBtn" value="default"
 						@click="
-						addCostumer(userId, newCostumer);
-						$('#addCostumerModal').close();
+						addCostumer(userId, newCostumer, '#addCostumerModal');
 						formReset();
 						">Adicionar</button>
 				</div>
@@ -53,10 +52,11 @@ import ICostumer from '@/interfaces/ICostumer';
 import AddCostumerButton from './AddCostumerButton.vue';
 import { addCostumer } from '@/firebase';
 
-const inputClasses = 'bg-gray-200 rounded-md border-2 border-gray-300 focus:border-gray-600'
+const inputClasses = 'bg-gray-200 rounded-md border border-gray-300 focus:border-gray-600'
 
 const appStore = useAppStore()
 const userId = computed(() => appStore.userId)
+const invalid = computed(() => name.value === "")
 
 //Formulário
 const name = ref('')

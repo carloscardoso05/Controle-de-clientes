@@ -7,8 +7,8 @@
 				<fieldset>
 					<label for="selectCostumerInput">
 						<p>Nome do cliente</p>
-						<select class="max-w-xs" v-model="costumerName" v-if="costumers.length != 0" :class="inputClasses"
-							id="selectCostumerInput" name="selectCostumerInput" required>
+						<select class="max-w-xs" v-model="costumerName" v-if="costumers.length != 0"
+							:class="inputClasses" id="selectCostumerInput" name="selectCostumerInput" required>
 							<option v-for="costumer in costumers" :key="costumer" :value="costumer">
 								{{ costumer }}
 							</option>
@@ -27,27 +27,28 @@
 				<fieldset>
 					<label for="descriptionInput">
 						<p>Descrição</p>
-						<input :class="inputClasses" v-model="description" type="text" id="descriptionInput"
-							required autocapitalize="on" autocomplete="off" name="descriptionInput">
+						<input :class="inputClasses" v-model="description" type="text" id="descriptionInput" required
+							autocapitalize="on" autocomplete="off" name="descriptionInput">
 					</label>
 				</fieldset>
 
 				<fieldset>
 					<label for="dateInput">
 						<p>Data</p>
-						<input :class="inputClasses" v-model="date" type="date" id="dateInput" required maxlength="10" name="dateInput">
+						<input :class="inputClasses" v-model="date" type="date" id="dateInput" required maxlength="10"
+							name="dateInput">
 					</label>
 				</fieldset>
 
 				<div class="flex justify-between pt-6">
-					<button class="border-2 border-red-500 px-4 py-2 xs:px-3 xs:py-1.5 rounded" value="cancel"
+					<button class="bg-red-500 text-white px-4 py-2 xs:px-3 xs:py-1.5 rounded" value="cancel"
 						@click.prevent="$('#addDebtModal').close()">Cancelar</button>
-					<button class="border-2 border-blue-500 bg-blue-500 text-white px-4 py-2 xs:px-3 xs:py-1.5 rounded"
-						id="confirmBtn" value="default" @click.prevent="
-						addDebt(userId, costumerName, newDebt);
-						$('#addDebtModal').close();
-						formReset();
-						">Adicionar</button>
+					<button :disabled="invalid" :class="{ 'bg-blue-300': invalid }" class="bg-blue-500 text-white px-4 py-2 xs:px-3 xs:py-1.5 rounded"
+						id="confirmBtn" value="default" @click.prevent="() => {
+							addDebt(userId, costumerName, newDebt, '#addDebtModal'); 
+							formReset();
+						}"
+						>Adicionar</button>
 				</div>
 			</form>
 		</div>
@@ -67,6 +68,10 @@ const inputClasses = 'bg-gray-200 rounded-md border py-0.5 border-gray-300 focus
 const appStore = useAppStore()
 const userId = computed(() => appStore.userId)
 const costumers = computed(() => appStore.allCostumersNames as ICostumer["name"][])
+const invalid = computed(() => !(date.value.length === 10
+	&& price.value != 0
+	&& costumerName.value !== ""
+	&& description.value !== ""))
 
 //Formulário
 const date = ref('')
