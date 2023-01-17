@@ -1,14 +1,14 @@
 <template>
 	<div class="rounded-md max-w-3xl mx-auto space-y-6 border shadow-inner py-4">
 		<div class="xs:mx-8 mx-2 mt-2 border-b border-neutral-400 flex justify-between">
-			<h1 class="text-xl xs:text-2xl font-medium text-left">{{ costumerData.name }}</h1>
+			<h1 class="text-xl xs:text-2xl font-medium text-left">{{ costumer.name }}</h1>
 			<h2 class="shrink-0 max-w-fit text-right tabular-nums text-base xs:text-lg">{{
-				formatMoney(costumerData.totalDebt)
+				formatMoney(costumer.totalDebt)
 			}}</h2>
 		</div>
 
 		<div class="space-y-6 text-left xs:mx-10 mx-4">
-			<div class="flex place-content-between space-x-8 border-l-2 border-emerald-400 ooo" v-for="debt in costumerDebts"
+			<div class="flex place-content-between space-x-8 border-l-2 border-purple-500" v-for="debt in costumerDebts"
 				:key="debt.id">
 				<div class="grow ml-4" 
 				@touchstart="beingTouched = true; debtTouched = debt"
@@ -19,13 +19,13 @@
 						any)["seconds"] * 1000) }}</p>
 						<p class="text-lg xs:text-xl font-medium">{{ capitalize(debt.description) }}</p>
 					</div>
-					<p class="text-sm xs:text-base align-bottom tabular-nums underline decoration-solid decoration-emerald-500">
+					<p class="text-sm xs:text-base align-bottom tabular-nums underline decoration-1 decoration-solid decoration-purple-500">
 						{{ formatMoney(debt.price) }}</p>
 				</div>
 
 				<div class="shrink-0 my-auto min-w-fit">
-					<EditDebtModal :debt="debt" :costumerName="costumerData.name" class="mr-3 hidden xs:inline-block" />
-					<DeleteDebtModal :debt="debt" :costumerName="costumerData.name" />
+					<EditDebtModal :debt="debt" :costumerName="costumer.name" class="mr-3 hidden xs:inline-block" />
+					<DeleteDebtModal :debt="debt" :costumerName="costumer.name" />
 				</div>
 			</div>
 		</div>
@@ -44,13 +44,13 @@ import IDebt from "@/interfaces/IDebt";
 import showModal from "@/util/showModal";
 
 const costumerDebts = computed(() => {
-	const debts = props.costumerData.debts;
+	const debts = props.costumer.debts;
 	debts.sort((a, b) => a.id - b.id)
 	return debts
 })
 
 const props = defineProps({
-	costumerData: {
+	costumer: {
 		type: Object as PropType<ICostumer>,
 		required: true
 	}

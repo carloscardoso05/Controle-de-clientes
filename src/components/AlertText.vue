@@ -1,18 +1,20 @@
 <template>
     <h1
-        class="text-lg text-center font-medium bg-amber-500 bg-opacity-40 border-2 border-amber-500 mx-auto w-full py-1">
-        <p class="px-1.5">
-            {{ text }}
-        </p>
+        class="text-lg text-center font-medium bg-opacity-40 border mx-auto w-full py-1"
+        :class="`bg-${props.color}-500 border-${props.color}-500`"
+        >
+        <slot class="px-1.5">
+        </slot>
     </h1>
 </template>
 
 <script lang="ts" setup>
 import { defineProps } from 'vue';
 const props = defineProps({
-    text: {
+    color: {
         type: String,
-        required: true
+        required: true,
+        default: 'amber'
     }
 })
 </script>

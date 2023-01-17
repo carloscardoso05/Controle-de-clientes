@@ -1,15 +1,15 @@
 <template>
-  <h1 class="text-4xl my-4 font-bold pageName">Clientes</h1>
+  <div class="bg-white max-w-4xl pt-4 pb-12 my-4 mx-auto rounded-2xl shadow-lg">
+    <h1 class="text-4xl my-4 font-bold pageName">Clientes</h1>
+    <LoadingComponent v-if="loading" />
 
-  <LoadingComponent v-if="loading" />
-
-  <div class="space-y-4 mt-4" v-else>
-    <div class="flex items-center mx-auto xs:px-3 place-content-between max-w-3xl">
-      <AddCostumerModal />
-
-      <SearchBar :store="useCostumersStore()" class=" xs:mx-0 mx-auto" />
+    <div class="space-y-6 mt-4" v-else>
+      <div class="flex items-center mx-auto xs:px-3 place-content-between max-w-3xl">
+        <AddCostumerModal />
+        <SearchBar :store="useCostumersStore()" class=" xs:mx-0 mx-auto" />
+      </div>
+      <AllCostumers />
     </div>
-    <AllCostumers />
   </div>
 </template>
 

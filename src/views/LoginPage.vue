@@ -2,7 +2,9 @@
   <h1 class="text-4xl my-4 font-bold pageName">Acesse sua conta</h1>
   <form class="space-y-4">
     <div class="w-full max-w-md mx-auto px-3">
-        <AlertText :text="errMsg" v-if="errMsg"/>
+      <AlertText v-if="errMsg">
+        <p>{{ errMsg }}</p>
+      </AlertText>
     </div>
 
     <fieldset class="">

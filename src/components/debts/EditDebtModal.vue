@@ -34,12 +34,12 @@
 						$('#editDebtModal').close();
 						formReset();
 						">Cancelar</button>
-					<button class="border-2 border-blue-500 bg-blue-500 text-white px-4 py-2 xs:px-3 xs:py-1.5 rounded"
+					<button class="border-2 border-blue-500 bg-blue-500 text-white px-5 py-2 xs:px-5 xs:py-1.5 rounded"
 						id="confirmBtn" value="default" @click="
 						updateDebt(userId, costumerName, props.debt, newDebt);
 						$('#editDebtModal').close();
 						formReset();
-						">Adicionar</button>
+						">Salvar</button>
 				</div>
 			</form>
 		</div>

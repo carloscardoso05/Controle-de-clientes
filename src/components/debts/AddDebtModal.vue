@@ -63,7 +63,7 @@ import ICostumer from '@/interfaces/ICostumer';
 import AddDebtButton from "./AddDebtButton.vue";
 import { addDebt } from '@/firebase';
 
-const inputClasses = 'bg-gray-200 rounded-md border-2 border-gray-300 focus:border-gray-600'
+const inputClasses = 'bg-gray-200 rounded-md border py-0.5 border-gray-300 focus:border-gray-600'
 
 const appStore = useAppStore()
 const userId = computed(() => appStore.userId)

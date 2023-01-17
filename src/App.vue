@@ -1,5 +1,5 @@
 <template>
-  <nav class="flex justify-between w-11/12 mx-auto mt-4">
+  <nav class="flex justify-between items-baseline w-11/12 mx-auto mt-4">
     <span class="space-x-2">
       <router-link class="rounded-lg px-3 py-2 text-slate-700 font-bold hover:bg-blue-100 hover:text-slate-900"
         v-for="link in routerLinks" :key="link.path" :to="link.path">
@@ -8,13 +8,13 @@
     </span>
 
     <button
-      class="sm:hidden px-2 rounded-lg border border-red-500 bg-red-300 transition-colors p-1 text-slate-800 text-sm font-medium hover:bg-red-400 hover:text-slate-900"
+      class="sm:hidden px-2 rounded bg-red-500 hover:bg-red-600 text-neutral-100 transition-colors p-1.5 text-sm font-medium"
       @click="handleSignOut" v-if="isLoggedIn">
       Sair
     </button>
 
     <button
-      class="hidden sm:inline-block rounded-lg border border-red-500 bg-red-300 transition-colors p-1 text-slate-800 text-sm font-medium hover:bg-red-400 hover:text-slate-900"
+      class="hidden sm:inline-block rounded bg-red-500 hover:bg-red-600 text-neutral-100 transition-colors p-1.5 text-sm font-medium"
       @click="handleSignOut" v-if="isLoggedIn">
       Sair da conta
     </button>

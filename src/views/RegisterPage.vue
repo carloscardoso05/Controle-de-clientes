@@ -2,7 +2,9 @@
   <h1 class="text-4xl my-4 font-bold pageName">Registre sua conta</h1>
   <form class="space-y-4">
     <div class="w-full max-w-md mx-auto px-3">
-      <AlertText :text="errMsg" v-if="errMsg" />
+      <AlertText v-if="errMsg">
+        <p>{{ errMsg }}</p>
+      </AlertText>
     </div>
 
     <fieldset class="">
@@ -58,7 +60,7 @@ function register() {
       console.log("Registro realizado com sucesso");
 
       const userName = appStore.userName
-      const newUser:IUser = {
+      const newUser: IUser = {
         costumers: {} as IUser["costumers"],
         userName: userName,
         userId: result.user.uid

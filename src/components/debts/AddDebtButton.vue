@@ -1,6 +1,6 @@
 <template>
     <button @click="showModal(modalId)" id="addButton"
-        class="hidden xs:inline-block shrink-0 border space-x-2 px-3 py-1 text-xl rounded border-purple-500 text-gray-700 bg-purple-200 hover:bg-purple-300 transition-colors">
+        class="hidden xs:inline-block shrink-0 space-x-2 px-3 py-1 text-xl rounded bg-purple-500 hover:bg-purple-600 text-neutral-100 transition-colors">
         <p class="inline-block text-lg font-medium">
             Adicionar
         </p>
