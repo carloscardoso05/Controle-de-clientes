@@ -39,16 +39,20 @@ export const useLoadUsers = () => {
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 export const addDebt = async (userId: string, costumerName: string, newDebt: IDebt) => {
-    const docRef = doc(db, "users", userId);
-    const costumerDebtsRef = `costumers.${costumerName}.debts`
-    const costumerTotalDebtRef = `costumers.${costumerName}.totalDebt`
-    await updateDoc(docRef, {
-        [costumerDebtsRef]: arrayUnion(newDebt)
-    })
-        .then(() => updateDoc(docRef, {
-            [costumerTotalDebtRef]: increment(newDebt.price)
-        }))
-        .catch(e => console.log(e))
+    if (newDebt.dateTime && newDebt.description !== '' && newDebt.price > 0) {
+        const docRef = doc(db, "users", userId);
+        const costumerDebtsRef = `costumers.${costumerName}.debts`
+        const costumerTotalDebtRef = `costumers.${costumerName}.totalDebt`
+        await updateDoc(docRef, {
+            [costumerDebtsRef]: arrayUnion(newDebt)
+        })
+            .then(() => updateDoc(docRef, {
+                [costumerTotalDebtRef]: increment(newDebt.price)
+            }))
+            .catch(e => console.log(e))
+    } else {
+        console.log("Informações inválidas")
+    }
 }
 
 export const deleteDebt = async (userId: string, costumerName: string, debt: IDebt) => {
@@ -64,26 +68,30 @@ export const deleteDebt = async (userId: string, costumerName: string, debt: IDe
         .catch(e => console.log(e))
 }
 
-export const updateDebt = async (userId: string, costumerName: string, oldDebt:IDebt, newDebt: IDebt) => {
-    const docRef = doc(db, "users", userId);
-    const costumerDebtsRef = `costumers.${costumerName}.debts`
-    const costumerTotalDebtRef = `costumers.${costumerName}.totalDebt`
-
-    await updateDoc(docRef, {
-    [costumerDebtsRef]: arrayRemove(oldDebt)
-    })
-    .then(() => updateDoc(docRef, {
-    [costumerTotalDebtRef]: increment(-(oldDebt.price))
-    }))
-    .catch(e => console.log(e))
-
-    await updateDoc(docRef, {
-    [costumerDebtsRef]: arrayUnion(newDebt)
-    })
-    .then(() => updateDoc(docRef, {
-    [costumerTotalDebtRef]: increment(newDebt.price)
-    }))
-    .catch(e => console.log(e))
+export const updateDebt = async (userId: string, costumerName: string, oldDebt: IDebt, newDebt: IDebt) => {
+    if (newDebt.dateTime && newDebt.description !== '' && newDebt.price > 0) {
+        const docRef = doc(db, "users", userId);
+        const costumerDebtsRef = `costumers.${costumerName}.debts`
+        const costumerTotalDebtRef = `costumers.${costumerName}.totalDebt`
+    
+        await updateDoc(docRef, {
+            [costumerDebtsRef]: arrayRemove(oldDebt)
+        })
+            .then(() => updateDoc(docRef, {
+                [costumerTotalDebtRef]: increment(-(oldDebt.price))
+            }))
+            .catch(e => console.log(e))
+    
+        await updateDoc(docRef, {
+            [costumerDebtsRef]: arrayUnion(newDebt)
+        })
+            .then(() => updateDoc(docRef, {
+                [costumerTotalDebtRef]: increment(newDebt.price)
+            }))
+            .catch(e => console.log(e))
+    } else {
+        console.log("Informações inválidas")
+    }
 }
 
 export const addCostumer = async (userId: string, newCostumer: ICostumer) => {

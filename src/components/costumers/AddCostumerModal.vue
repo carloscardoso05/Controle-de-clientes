@@ -2,12 +2,12 @@
 	<AddCostumerButton />
 
 	<dialog id="addCostumerModal" class="shadow-lg rounded w-full max-w-xl">
-		<div>
-			<form method="dialog" class="space-y-4 text-left w-fit mx-auto">
+		<div class="max-w-xs w-fit mx-auto py-2">
+			<form method="dialog" class="space-y-4 text-left">
 				<fieldset>
 					<label>
 						<p>Nome do cliente</p>
-						<input :class="inputClasses" type="text" v-model="name" required="true">
+						<input :class="inputClasses" type="text" v-model="name" required>
 					</label>
 				</fieldset>
 				<fieldset>
@@ -27,12 +27,6 @@
 						<p>Números de telefone</p>
 						<input :class="inputClasses" type="text" v-model="phoneNumber1" placeholder="Número 1"> <br>
 						<input :class="inputClasses" type="text" v-model="phoneNumber2" placeholder="Número 2">
-					</label>
-				</fieldset>
-				<fieldset>
-					<label for="lastPaymentInput">
-						<p>Último pagamento</p>
-						<input :class="inputClasses" type="date" id="lastPaymentInput" v-model="lastPayment">
 					</label>
 				</fieldset>
 
@@ -70,7 +64,6 @@ const phoneNumber1 = ref('')
 const phoneNumber2 = ref('')
 const email = ref('')
 const address = ref('')
-const lastPayment = ref('')
 
 const newCostumer = computed((): ICostumer => {
 	return {
@@ -80,8 +73,7 @@ const newCostumer = computed((): ICostumer => {
 		phoneNumber1: phoneNumber1.value,
 		phoneNumber2: phoneNumber2.value,
 		email: email.value,
-		address: address.value,
-		lastPayment: lastPayment.value.replace('-', '/'),
+		address: address.value
 	}
 })
 
@@ -91,7 +83,6 @@ function formReset() {
 	email.value = ''
 	phoneNumber1.value = ''
 	phoneNumber2.value = ''
-	lastPayment.value = ''
 }
 
 const $ = (e: string): any => document.querySelector(e)

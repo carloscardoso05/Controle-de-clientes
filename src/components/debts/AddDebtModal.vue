@@ -2,14 +2,13 @@
 	<AddDebtButton />
 
 	<dialog id="addDebtModal" class="shadow-lg rounded w-full max-w-xl">
-		<div>
-			<form method="dialog" id="addDebtForm" class="space-y-4 text-left w-fit mx-auto">
-
+		<div class="max-w-xs w-fit mx-auto py-2">
+			<form method="dialog" id="addDebtForm" class="space-y-4 text-left">
 				<fieldset>
 					<label for="selectCostumerInput">
 						<p>Nome do cliente</p>
-						<select v-model="costumerName" v-if="costumers.length != 0" :class="inputClasses"
-							id="selectCostumerInput" name="selectCostumerInput" required="true">
+						<select class="max-w-xs" v-model="costumerName" v-if="costumers.length != 0" :class="inputClasses"
+							id="selectCostumerInput" name="selectCostumerInput" required>
 							<option v-for="costumer in costumers" :key="costumer" :value="costumer">
 								{{ costumer }}
 							</option>
@@ -21,7 +20,7 @@
 					<label for="priceInput">
 						<p>Valor</p>
 						<input :class="inputClasses" v-model="price" type="number" min="0.01" step="0.01"
-							id="priceInput" required="true" name="priceInput">
+							id="priceInput" required name="priceInput">
 					</label>
 				</fieldset>
 
@@ -29,18 +28,18 @@
 					<label for="descriptionInput">
 						<p>Descrição</p>
 						<input :class="inputClasses" v-model="description" type="text" id="descriptionInput"
-							required="true" autocapitalize="on" autocomplete="off" name="descriptionInput">
+							required autocapitalize="on" autocomplete="off" name="descriptionInput">
 					</label>
 				</fieldset>
 
 				<fieldset>
 					<label for="dateInput">
 						<p>Data</p>
-						<input :class="inputClasses" v-model="date" type="date" id="dateInput" required="true" maxlength="10" name="dateInput">
+						<input :class="inputClasses" v-model="date" type="date" id="dateInput" required maxlength="10" name="dateInput">
 					</label>
 				</fieldset>
 
-				<div class="space-x-16 pt-6">
+				<div class="flex justify-between pt-6">
 					<button class="border-2 border-red-500 px-4 py-2 xs:px-3 xs:py-1.5 rounded" value="cancel"
 						@click.prevent="$('#addDebtModal').close()">Cancelar</button>
 					<button class="border-2 border-blue-500 bg-blue-500 text-white px-4 py-2 xs:px-3 xs:py-1.5 rounded"
