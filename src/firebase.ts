@@ -38,10 +38,8 @@ export const useLoadUsers = () => {
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-export const addDebt = async (userId: string, costumerName: string, newDebt: IDebt, modalId: string) => {
-    if (modalId !== "") {
-        (document.querySelector(modalId) as any).close()
-    }
+export const addDebt = async (userId: string, costumerName: string, newDebt: IDebt, modalId = "") => {
+    modalId !== "" ? (document.querySelector(modalId) as any).close() : null
     const docRef = doc(db, "users", userId);
     const costumerDebtsRef = `costumers.${costumerName}.debts`
     const costumerTotalDebtRef = `costumers.${costumerName}.totalDebt`
@@ -69,31 +67,16 @@ export const deleteDebt = async (userId: string, costumerName: string, debt: IDe
 }
 
 export const updateDebt = async (userId: string, costumerName: string, oldDebt: IDebt, newDebt: IDebt) => {
-    const docRef = doc(db, "users", userId);
-    const costumerDebtsRef = `costumers.${costumerName}.debts`
-    const costumerTotalDebtRef = `costumers.${costumerName}.totalDebt`
-
-    await updateDoc(docRef, {
-        [costumerDebtsRef]: arrayRemove(oldDebt)
-    })
-        .then(() => updateDoc(docRef, {
-            [costumerTotalDebtRef]: increment(-(oldDebt.price))
-        }))
-        .catch(e => console.log(e))
-
-    await updateDoc(docRef, {
-        [costumerDebtsRef]: arrayUnion(newDebt)
-    })
-        .then(() => updateDoc(docRef, {
-            [costumerTotalDebtRef]: increment(newDebt.price)
-        }))
-        .catch(e => console.log(e))
+    try { 
+        deleteDebt(userId, costumerName, oldDebt)
+        addDebt(userId, costumerName, newDebt)
+    } catch (error) {
+        console.log(error)
+    }
 }
 
-export const addCostumer = async (userId: string, newCostumer: ICostumer, modalId: string) => {
-    if (modalId !== "") {
-        (document.querySelector(modalId) as any).close()
-    }
+export const addCostumer = async (userId: string, newCostumer: ICostumer, modalId = "") => {
+    modalId !== "" ? (document.querySelector(modalId) as any).close() : null
     const docRef = doc(db, "users", userId);
     await updateDoc(docRef, {
         [`costumers.${newCostumer.name}`]: newCostumer
@@ -105,4 +88,14 @@ export const deleteCostumer = async (userId: string, costumer: ICostumer) => {
     await updateDoc(docRef, {
         [`costumers.${costumer.name}`]: deleteField()
     }).catch(e => console.log(e))
+}
+
+export const updateCostumer = async (userId: string, oldCostumer: ICostumer, newCostumer: ICostumer, modalId = "") => {
+    modalId !== "" ? (document.querySelector(modalId) as any).close() : null
+    try {
+        deleteCostumer(userId, oldCostumer)
+        addCostumer(userId, newCostumer)
+    } catch (error) {
+        console.log(error)
+    }
 }

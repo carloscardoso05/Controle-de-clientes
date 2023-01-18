@@ -51,6 +51,7 @@ import { useAppStore } from "@/store/index"
 import ICostumer from '@/interfaces/ICostumer';
 import AddCostumerButton from './AddCostumerButton.vue';
 import { addCostumer } from '@/firebase';
+import capitalize from '@/util/capitalize';
 
 const inputClasses = 'bg-gray-200 rounded-md border border-gray-300 focus:border-gray-600'
 
@@ -67,7 +68,7 @@ const address = ref('')
 
 const newCostumer = computed((): ICostumer => {
 	return {
-		name: name.value,
+		name: capitalize(name.value),
 		debts: [],
 		totalDebt: 0,
 		phoneNumber1: phoneNumber1.value,

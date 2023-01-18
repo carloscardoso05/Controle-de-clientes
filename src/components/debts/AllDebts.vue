@@ -43,6 +43,5 @@ function filterName(searchName: string, name: string) {
 
 watch([costumersData, searchName], () => {
     filterCostumersNames.value = allCostumersNames.value.filter(costumerName => filterName(searchName.value, costumerName))
-    filterCostumersNames.value.sort()
 })
 </script>

@@ -1,10 +1,10 @@
 <template>
     <div class="rounded-md max-w-3xl mx-auto space-y-6 border shadow-inner py-4">
         <div class="xs:mx-8 mx-2 border-b border-neutral-400 flex justify-between">
-            <h1 class="my-auto text-xl xs:text-2xl font-medium text-left">{{ costumer.name }}</h1>
+            <h1 class="my-auto text-xl xs:text-2xl font-medium text-left break-words">{{ costumer.name }}</h1>
             <div class="shrink-0 mb-2 my-auto min-w-fit">
                 <!-- EditCostumerModal -->
-                <DeleteCostumerModal :costumer="costumer" class="mr-3 hidden xs:inline-block" />
+                <EditCostumerModal :costumer="costumer" class="mr-3 hidden xs:inline-block" />
                 <DeleteCostumerModal :costumer="costumer" />
             </div>
         </div>
@@ -30,6 +30,7 @@ import { defineProps, PropType } from "vue"
 import ICostumer from "@/interfaces/ICostumer";
 import formatMoney from "@/util/formatMoney";
 import DeleteCostumerModal from "./DeleteCostumerModal.vue";
+import EditCostumerModal from "./EditCostumerModal.vue";
 
 const props = defineProps({
     costumer: {

@@ -1,7 +1,7 @@
 <template>
 	<div class="rounded-md max-w-3xl mx-auto space-y-6 border shadow-inner py-4">
 		<div class="xs:mx-8 mx-2 mt-2 border-b border-neutral-400 flex justify-between">
-			<h1 class="text-xl xs:text-2xl font-medium text-left">{{ costumer.name }}</h1>
+			<h1 class="text-xl xs:text-2xl font-medium text-left break-words">{{ costumer.name }}</h1>
 			<h2 class="shrink-0 max-w-fit text-right tabular-nums text-base xs:text-lg">{{
 				formatMoney(costumer.totalDebt)
 			}}</h2>

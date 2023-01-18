@@ -9,7 +9,7 @@ export const useAppStore = defineStore("AppStore", () => {
   const loading = ref(true)
 
   const costumersData = computed(() => userData.value["costumers"] as IUser["costumers"])
-  const allCostumersNames = computed(() => Object.keys(costumersData.value))
+  const allCostumersNames = computed(() => Object.keys(costumersData.value).sort())
 
   return {
     userId,
