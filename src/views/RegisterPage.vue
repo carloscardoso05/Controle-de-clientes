@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -48,6 +48,8 @@ import IUser from "@/interfaces/IUser";
 import AlertText from "@/components/AlertText.vue";
 
 const appStore = useAppStore()
+const usersList = computed(() => appStore.usersList)
+const userName = computed(() => appStore.userName)
 const email = ref("");
 const password = ref();
 const router = ref(useRouter());
@@ -55,15 +57,14 @@ const errMsg = ref("")
 const inputStyle = "outline-none border border-purple-500 focus:border-purple-600 bg-gray-100 rounded px-2 py-2 w-5/6 xs:w-3/5 max-w-xs"
 
 function register() {
-  if (appStore.userName !== "") {
+  if (userName.value !== "") {
     createUserWithEmailAndPassword(getAuth(), email.value, password.value)
     .then(async (result) => {
       console.log("Registro realizado com sucesso");
 
-      const userName = appStore.userName
       const newUser: IUser = {
         costumers: {} as IUser["costumers"],
-        userName: userName,
+        userName: userName.value,
         userId: result.user.uid
       }
       await createUser(newUser)
@@ -101,25 +102,29 @@ function register() {
 }
 
 function logInWithGoogle() {
-  const provider = new GoogleAuthProvider();
-  signInWithPopup(getAuth(), provider)
-    .then(async (result) => {
-      console.log("Registro realizado com sucesso");
-      console.log(result.user);
-
-      const userName = appStore.userName
-
-      await createUser({
-        costumers: {} as IUser["costumers"],
-        userName: userName,
-        userId: result.user.uid
-      } as IUser)
-
-      appStore.userId = result.user.uid
-      router.value.push("/");
-    })
-    .catch((error) => {
-      console.log(error.message);
-    });
+  if (userName.value !== "") {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(getAuth(), provider)
+      .then(async (result) => {
+        console.log("Registro realizado com sucesso");
+        console.log(result.user);
+  
+        if(!usersList.value.includes(result.user.uid)){
+          await createUser({
+            costumers: {} as IUser["costumers"],
+            userName: userName.value,
+            userId: result.user.uid
+          } as IUser)
+        }
+  
+        appStore.userId = result.user.uid
+        router.value.push("/");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  } else {
+    errMsg.value = "Insira um nome de usuário"
+  }
 }
 </script>

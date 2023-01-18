@@ -28,7 +28,7 @@ import { ref, onMounted, computed } from "vue";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import router from "./router";
 import { useAppStore } from "./store";
-import { onSnapshot, doc } from "@firebase/firestore";
+import { onSnapshot, doc, collection } from "@firebase/firestore";
 import { db } from "./main";
 import IUser from "./interfaces/IUser";
 
@@ -79,6 +79,9 @@ function handleSignOut() {
 }
 
 onMounted(() => {
+  onSnapshot(collection(db, "users"), docs => {
+    docs.forEach(doc => appStore.usersList.push(doc.id))
+  })
   onAuthStateChanged(auth.value, (user) => {
     if(user){
       isLoggedIn.value = true

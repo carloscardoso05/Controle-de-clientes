@@ -5,6 +5,7 @@ import IUser from "@/interfaces/IUser";
 export const useAppStore = defineStore("AppStore", () => {
   const userId = ref('')
   const userData = ref({} as IUser)
+  const usersList = ref([] as any)
   const userName = ref('')
   const loading = ref(true)
 
@@ -17,7 +18,8 @@ export const useAppStore = defineStore("AppStore", () => {
     costumersData,
     allCostumersNames,
     userName,
-    loading
+    loading,
+    usersList
   };
 });
 
