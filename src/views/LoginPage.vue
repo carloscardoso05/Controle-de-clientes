@@ -30,6 +30,12 @@
       <font-awesome-icon icon="fa-brands fa-google" class="mr-2"/>
       Entrar com Google
     </button>
+    <br>
+    <button class="relative border border-rose-500 rounded px-3 py-2 w-5/6 xs:w-3/5 max-w-xs text-rose-500 font-medium after:content-[''] after:rounded-full after:w-3 after:h-3 after:bg-rose-500 after:absolute after:-top-1 after:-right-1 after:animate-pulse"
+      @click.prevent="logInDemo()">
+      <font-awesome-icon icon="fa-solid fa-id-card" class="mr-2"/>
+      Demonstração
+    </button>
   </form>
 </template>
 
@@ -85,6 +91,33 @@ function logInWithGoogle() {
     })
     .catch((error) => {
       console.log(error.message);
+    });
+}
+
+function logInDemo(){
+  signInWithEmailAndPassword(getAuth(), "conta_demonstracao@gmail.com", "demo_conta_05")
+    .then((result) => {
+      console.log("Login realizado com sucesso");
+      console.log("Current User:", result.user.uid);
+      appStore.userId = result.user.uid
+      router.value.push("/");
+    })
+    .catch((error) => {
+      console.log(error.code);
+      switch (error.code) {
+        case "auth/invalid-email":
+          errMsg.value = "Email inválido";
+          break;
+        case "auth/user-not-found":
+          errMsg.value = "Nenhuma conta com esse email foi encontrada";
+          break;
+        case "auth/wrong-password":
+          errMsg.value = "Senha incorreta";
+          break;
+        default:
+          errMsg.value = "Email ou senha incorretos";
+          break;
+      }
     });
 }
 </script>

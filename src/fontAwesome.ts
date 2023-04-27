@@ -1,4 +1,4 @@
-import { faMagnifyingGlass, faCirclePlus, faPlus, faTrash, faUpRightFromSquare, faCircleNotch, faFan, faPenToSquare, faEllipsis, faEnvelope } from "@fortawesome/free-solid-svg-icons"
+import { faMagnifyingGlass, faCirclePlus, faPlus, faTrash, faUpRightFromSquare, faCircleNotch, faFan, faPenToSquare, faEllipsis, faEnvelope, faIdCard } from "@fortawesome/free-solid-svg-icons"
 import { faGoogle } from "@fortawesome/free-brands-svg-icons"
 
 const icons = {
@@ -12,7 +12,8 @@ const icons = {
     faPenToSquare,
     faEllipsis,
     faGoogle,
-    faEnvelope
+    faEnvelope,
+    faIdCard
 }
 
 export default icons

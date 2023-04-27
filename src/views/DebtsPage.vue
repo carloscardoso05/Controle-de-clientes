@@ -11,13 +11,13 @@
         </p>
       </AlertText>
       <div class="flex justify-center flex-col space-y-2 xs:flex-row xs:space-x-4 xs:space-y-0">
-        <button id="goToCostumer"
-          class="border-sky-600 border-2 bg-sky-600 rounded px-3 py-2 w-full xs:max-w-2xs text-white font-medium">
-          <router-link :to="'/costumers'">
+        <router-link :to="'/costumers'">
+          <button id="goToCostumer"
+            class="border-sky-600 border-2 bg-sky-600 rounded px-3 py-2 w-full xs:max-w-2xs text-white font-medium">
             Ir para Clientes
             <font-awesome-icon icon="fa-solid fa-up-right-from-square" class="ml-1" />
-          </router-link>
-        </button>
+          </button>
+        </router-link>
       </div>
     </div>
 

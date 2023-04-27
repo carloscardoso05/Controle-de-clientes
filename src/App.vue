@@ -20,7 +20,11 @@
     </button>
   </nav>
 
-  <router-view/>
+  <AlertText v-if="appStore.userId == 'xXyOnABD5aU1QraWWDTbTfWXtIi2'" class="max-w-lg font-normal">
+    <p>Isso é uma conta de demonstração. Todos os dados serão apagados ao recarregar a página</p>
+  </AlertText>
+
+  <router-view />
 </template>
 
 <script lang="ts" setup>
@@ -28,9 +32,10 @@ import { ref, onMounted, computed } from "vue";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import router from "./router";
 import { useAppStore } from "./store";
-import { onSnapshot, doc, collection } from "@firebase/firestore";
+import { onSnapshot, doc, collection, updateDoc } from "@firebase/firestore";
 import { db } from "./main";
 import IUser from "./interfaces/IUser";
+import AlertText from "./components/AlertText.vue";
 
 const links = ref([
   {
@@ -59,7 +64,7 @@ const appStore = useAppStore()
 const userId = computed(() => appStore.userId)
 
 const routerLinks = computed(() => {
-  if(isLoggedIn.value){
+  if (isLoggedIn.value) {
     return links.value.filter((link) => link.showIfLogged)
   } else {
     return links.value.filter((link) => !link.showIfLogged)
@@ -83,9 +88,9 @@ onMounted(() => {
     docs.forEach(doc => appStore.usersList.push(doc.id))
   })
   onAuthStateChanged(auth.value, (user) => {
-    if(user){
+    if (user) {
       isLoggedIn.value = true
-      appStore.userId = user.uid     
+      appStore.userId = user.uid
 
       onSnapshot(doc(db, "users", userId.value), (doc) => {
         appStore.userData = doc.data() as IUser
@@ -93,7 +98,13 @@ onMounted(() => {
       })
     } else {
       isLoggedIn.value = false
-      appStore.userId = ''      
+      appStore.userId = ''
+    }
+    if (appStore.userId == "xXyOnABD5aU1QraWWDTbTfWXtIi2") {
+      const docRef = doc(db, "users", appStore.userId);
+      updateDoc(docRef, {
+        ["costumers"]: {}
+      })
     }
   });
 });
